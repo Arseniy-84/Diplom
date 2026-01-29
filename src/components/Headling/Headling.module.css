@@ -1,0 +1,21 @@
+.head {
+font-family: var(--font);
+font-weight: var(--font-bold);
+font-style: Bold;
+font-size: 22px;
+line-height: 25px;
+letter-spacing: 0%;
+vertical-align: middle;
+text-transform: uppercase;
+margin: 0;
+}
+
+.client {
+  color: var(--text-headers-ticket);
+}
+
+.admin {
+  color: var(--white);
+  background-color: var(--admin-headers);
+}
+

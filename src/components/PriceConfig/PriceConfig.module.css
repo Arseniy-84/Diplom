@@ -1,0 +1,110 @@
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 36px;
+}
+
+.header {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    font-family: Roboto;
+    font-weight: var(--font-normal);
+    font-size: 16px;
+    line-height: 18px;
+    letter-spacing: 0;
+    vertical-align: middle;
+}
+
+.halls {
+    display: flex;
+    align-items: center;
+    padding-right: 10px;
+}
+
+.hall {
+    font-weight: var(--font-medium);   
+    font-size: 14px;
+    line-height: 16px;
+    letter-spacing: 0;
+    vertical-align: middle;
+    text-transform: uppercase;
+    background: rgba(255, 255, 255, 0.45);
+    padding: 13px 20px;
+    box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.12);
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.hall:hover {
+    box-shadow: 0px 3px 3px 0px rgba(0, 0, 0, 0.24);
+}
+
+.hall_active {
+    font-weight: var(--font-black);   
+    font-size: 15px;
+    background: var(--white);
+    padding: 15px 23px;
+    box-shadow: 0px 3px 3px 0px rgba(0, 0, 0, 0.24);
+}
+
+.inputs {
+    display: flex;
+    flex-direction: column;
+    
+    gap: 13px;
+}
+
+.input {
+    display: flex;
+    flex-direction: column;
+}
+
+.input input {
+    width: 74px;
+    height: 36px;
+    box-sizing: border-box;
+    border: 1px solid #B7B7B7;
+}
+
+.field {
+    display: flex;
+    align-items: flex-end;
+}
+
+.field label {
+    font-weight: var(--font-normal);
+    font-size: 12px;
+    line-height: 14px;
+    letter-spacing: 0;
+    vertical-align: middle;
+    color: var(--text-secondary);
+}
+
+.chair {
+    display: flex;
+    align-items: center;
+    color: var(--text-secondary);
+    font-weight: var(--font-normal);
+    font-size: 14px;
+    line-height: 16px;
+    letter-spacing: 0;
+    vertical-align: middle;
+}
+
+.buttons {
+    display: flex;
+    gap: 15px;
+    justify-content: center
+}
+
+.loading {
+    height: 100%;
+    min-height: 46px;
+}
+
+@media (max-width: 390px) {
+    .halls {
+        flex-wrap: wrap;
+    }
+}

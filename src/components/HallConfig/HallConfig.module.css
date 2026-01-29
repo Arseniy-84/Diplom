@@ -1,0 +1,174 @@
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 36px;
+}
+
+.header {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    font-family: Roboto;
+    font-weight: var(--font-normal);
+    font-size: 16px;
+    line-height: 18px;
+    letter-spacing: 0;
+    vertical-align: middle;
+    padding-right: 30px;
+}
+
+.halls {
+    display: flex;
+    align-items: center;
+}
+
+.hall {
+    font-weight: var(--font-medium);   
+    font-size: 14px;
+    line-height: 16px;
+    letter-spacing: 0;
+    vertical-align: middle;
+    text-transform: uppercase;
+    background: rgba(255, 255, 255, 0.45);
+    padding: 13px 20px;
+    box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.12);
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.hall:hover {
+    box-shadow: 0px 3px 3px 0px rgba(0, 0, 0, 0.24);
+}
+
+.hall_active {
+    font-weight: var(--font-black);   
+    font-size: 15px;
+    background: var(--white);
+    padding: 15px 23px;
+    box-shadow: 0px 3px 3px 0px rgba(0, 0, 0, 0.24);
+}
+
+.inputs {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+}
+
+.field label {
+    font-weight: var(--font-normal);
+    font-size: 12px;
+    line-height: 14px;
+    letter-spacing: 0;
+    vertical-align: middle;
+    color: var(--text-secondary);
+}
+
+.field input {
+    max-width: 100px;
+    max-height: 36px;
+    box-sizing: border-box;
+}
+
+.icon {
+    width: 10px;
+    height: 21px;
+}
+
+.chairs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 23px;
+}
+
+.chair {
+    display: flex;
+    align-items: center;
+}
+
+.chair div {
+    font-weight: var(--font-normal);
+    font-style: Regular;
+    font-size: 14px;
+    line-height: 16px;
+    letter-spacing: 0;
+    vertical-align: middle;
+    color: var(--text-secondary);
+}
+
+.comment {
+    font-weight: var(--font-normal);
+    font-style: Regular;
+    font-size: 14px;
+    line-height: 16px;
+    letter-spacing: 0;
+    vertical-align: middle;
+    color: var(--text-secondary);
+}
+
+.buttons {
+    display: flex;
+    gap: 15px;
+    justify-content: center
+}
+
+.container-hall {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    padding: 26px 0px 36px;
+    border: 1px solid rgba(0, 0, 0, 1);
+    max-width: 826px;
+}
+
+.screen {
+    font-weight: var(--font-normal);
+    font-size: 16px;
+    line-height: 18px;
+    letter-spacing: 19px;
+    text-align: center;
+    vertical-align: middle;
+    text-transform: uppercase;
+}
+
+.schemeHall {
+    max-width: 780px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.row {
+    display: flex;
+    flex-wrap: nowrap;    
+}
+
+.seats {
+    display: flex;
+    gap: 10px;
+    cursor: pointer;
+}
+
+.loading {
+    height: 100%;
+    min-height: 46px;
+}
+
+
+@media (min-width: 391px) and (max-width: 767px) { 
+    .buttons {
+        flex-wrap: wrap;
+        gap: 7px;
+    }
+}
+
+@media (max-width: 390px) {
+    .halls {
+        flex-wrap: wrap;
+    }
+}

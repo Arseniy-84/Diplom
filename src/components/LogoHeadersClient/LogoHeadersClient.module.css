@@ -1,0 +1,15 @@
+.head {
+    font-weight: var(--font-black);
+    font-size: 34px;
+    line-height: 39px;
+    letter-spacing: 0;
+    vertical-align: middle;
+    text-transform: uppercase;
+    color: var(--white);
+    cursor: pointer;
+}
+
+.head span {
+    font-weight: 100;
+    font-size: 34px;
+}

@@ -1,0 +1,45 @@
+.button {
+    font-family: var(--font);
+    font-weight: var(--font-medium);
+    background: var(--button-color);
+    color: var(--white);
+    font-size: 14px;
+    line-height: 16px;
+    text-align: center;
+    vertical-align: middle; 
+    text-transform: uppercase;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.12)
+}
+
+.button:hover {
+    background-color: #1899a2;
+    box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.24);
+}
+
+.big {
+    padding: 12px 56px;
+}
+
+.small {
+    padding: 12px;
+}
+
+.admin {
+    padding: 12px 31px;
+}
+
+.cancel {
+    padding: 12px 31px;
+    color: var(--admin-headers);
+    background: var(--white);
+}
+
+.cancel:hover {
+    background-color: #f3f4f4;
+    box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.24);
+}
+
+

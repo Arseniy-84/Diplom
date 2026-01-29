@@ -1,0 +1,57 @@
+.client-layout {
+    background-image: url('../../../public/Client/background-image_client.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    max-width: 100%;
+    overflow: hidden;
+}
+
+.main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    
+    max-width: 990px;
+    width: 100%;
+    margin: auto;
+    padding: 0 16px;
+    box-sizing: border-box;
+}
+
+.logo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center; 
+    padding: 14px; 
+    gap: 16px;
+    max-width: 990px;
+    margin: auto;
+}
+
+.content {
+    align-self: center;
+    width: 100%;
+    max-width: 100%;
+}
+
+@media (min-width: 391px) and (max-width: 767px) { 
+    .main {
+        margin: 0;
+        padding: 0;
+    }
+}
+
+@media (max-width: 390px) {
+    .main {
+        margin: 0;
+        padding: 0;
+    }
+
+    .client-layout {
+        background-size:cover;
+        background-position: center;
+    } 
+}

@@ -1,0 +1,122 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    max-width: 990px;
+    background: #F1EBE6F2;
+    padding-bottom: 30px;
+}
+
+.seance {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 15px;
+}
+
+.film-name {
+    font-weight: var(--font-bold);
+    font-size: 16px;
+    line-height: 18px;
+    letter-spacing: 0;
+    vertical-align: middle;
+}
+
+.seance-time {
+    font-weight: var(--font-light);
+    font-size: 14px;
+    line-height: 16px;
+    letter-spacing: 0;
+    vertical-align: middle;
+}
+
+.hall-name {
+    font-weight: var(--font-bold);
+    font-size: 16px;
+    line-height: 18px;
+    letter-spacing: 0;
+    vertical-align: middle;
+    text-transform: capitalize;
+}
+
+.hall {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: #171D24;
+    padding: 15px 0;
+}
+
+.screen {
+    max-width: 284px;
+    padding-bottom: 30px;
+}
+
+.hall-config {
+    display: flex;
+    flex-direction: column;
+    gap: 4px; 
+}
+
+.seats {
+    display: flex;
+    gap: 4px;
+    
+}
+
+.chairs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    padding-top: 30px;
+    padding-left: 80px;
+}
+
+.chair {
+    display: flex;
+    align-items: center
+}
+
+.seat {
+    width: 20px;
+    height: 20px;
+    opacity: 1;
+    border-radius: 4px;
+    border: solid 1px #525252;
+    cursor: pointer;
+}
+
+.standart-chair {   
+    background: var(--white);
+}
+
+.taken-chair {
+    background: #171D24;
+    cursor: default;
+}
+
+.vip-chair {
+    background: #F9953A;
+}
+
+.selected-chair {
+    background: #25C4CE;
+    box-shadow: 0px 0px 4px 0px #16A6AF;
+}
+
+.chair-text {
+    font-weight: var(--font-light);
+    font-size: 14px;
+    line-height: 16px;
+    letter-spacing: 0;
+    vertical-align: middle;
+    color: var(--white);
+}
+
+.button {
+    align-self: center;
+    padding-top: 30px;
+}
+
+.loading {
+    color: var(--white);
+}

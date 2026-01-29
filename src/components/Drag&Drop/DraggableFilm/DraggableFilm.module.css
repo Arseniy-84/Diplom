@@ -1,0 +1,77 @@
+.film {
+    display: flex;
+    width: 260px;
+    height: 50px;
+    position: relative;
+    background: #fff;
+    border: 1px solid #0000004D;
+    cursor: grab;
+    
+}
+
+.film-poster {
+    width: 38px;
+    height: 50px;
+}
+
+.film-poster-overlay {
+    width: 50px;
+    height: 50px;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 0.3; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(1.05); }
+}
+
+.dragging {
+    opacity: 0.3;
+    transform: scale(0.95);
+    transition: all 0.2s ease;
+}
+
+.dragging {
+    opacity: 0.8;
+}
+
+.content {
+    padding: 7px 10px;
+}
+
+.name {   
+    font-weight: var(--font-medium);
+    font-size: 14px;
+    line-height: 16px;
+    letter-spacing: 0;
+    vertical-align: middle;
+    max-width: 180px;
+    white-space: nowrap;
+    overflow:hidden;
+    text-overflow: ellipsis;
+}
+
+.duration {
+    font-weight: var(--font-normal);
+    font-size: 14px;
+    line-height: 16px;
+    letter-spacing: 0;
+    vertical-align: middle;
+    color: #000000B2;
+}
+
+.icon {
+    padding: 4px;
+    background: var(--white);
+    border-radius: 3px;
+    box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.12);
+    cursor: pointer;
+    width: 15px;
+    height: 15px;
+    position: absolute;
+    bottom: 2px;
+    right: 2px;
+}
+
+.icon:hover {
+    box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.24);
+}

@@ -1,0 +1,109 @@
+.container {
+    padding: 0 40px;
+    position: relative;
+    max-width: 990px;
+    width: 100%;
+}
+
+.slide {
+    padding: 0;
+}
+
+.date {
+    display: block;    
+    text-decoration: none;
+    width: 120px;
+    
+    height: 48px;
+    opacity: 1;
+    padding: 10px 20px;
+    border-radius: 2px;
+    background: #FFFFFFE5;
+    box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.12);
+    text-align: center;
+
+    font-weight: var(--font-normal);
+    font-size: 12px;
+    line-height: 14px;
+    letter-spacing: 0;
+    color: var(--black);
+}
+
+.date:hover {
+    box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.24);
+}
+
+.date-active {
+    width: 248px;
+    height: 52px;
+    padding: 11px 22px;
+    background: var(--white);
+}
+
+.weekend {
+    color:#FF0000;
+}
+
+.button {
+    border: none;
+    cursor: pointer;
+}
+
+.slick-prev, .slick-next {
+    width: 40px;
+    height: 48px;
+    background: #FFFFFFE5;
+    border-radius: 2px;
+    box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.12);
+    z-index: 10;
+}
+
+.slick-prev {
+    left: -45px;
+}
+
+.slick-next {
+    right: -45px;
+}
+
+@media (min-width: 391px) and (max-width: 767px) {
+    .container {
+        max-width: 768px;
+    }
+
+    .date {
+        width: 96px;
+        height: 48px;
+    }
+
+    .date-active {
+        width: 187px;
+        height: 52px;
+    }
+    .slick-prev {
+    left: -25px;
+    }
+
+    .slick-next {
+        right: -25px;
+    }
+    .slide {
+    padding: 0;
+}
+}
+
+@media (max-width: 390px) {
+    .container {
+        max-width: 390px;
+    }
+
+    .date {
+        width: 49px;
+        height: 48px;
+    }
+
+    .date-active {
+        width: 75px;
+        height: 52px;
+    }
+}

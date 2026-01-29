@@ -1,0 +1,12 @@
+.deletSeance {
+    position: relative;   
+    min-height: 100px;
+    transition: all 0.3s ease;
+}
+
+.basketContainer {
+    position: absolute;
+    top: -40px;
+    left: 50%;    
+    z-index: 10;
+}
