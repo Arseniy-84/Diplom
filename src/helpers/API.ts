@@ -1,1 +1,0 @@
-export const PREFIX = 'https://shfe-diplom.neto-server.ru';
