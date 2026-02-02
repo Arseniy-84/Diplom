@@ -30,3 +30,42 @@ html, body {
   padding: 0;
   height: 100%;
 }
+
+/* ОБЩИЕ СТИЛИ ДЛЯ АДАПТИВА */
+
+/* Планшетная версия - полная ширина */
+@media (max-width: 1024px) {
+  .container,
+  .content,
+  .page-container,
+  .main-container {
+    max-width: 100% !important;
+    width: 100% !important;
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+}
+
+/* Для админки на планшете */
+@media (max-width: 1024px) {
+  .admin-container,
+  .admin-content {
+    max-width: 100vw !important;
+    overflow-x: hidden;
+  }
+}
+
+/* Мобильная версия - компактнее */
+@media (max-width: 768px) {
+  body {
+    overflow-x: hidden;
+  }
+  
+  .container,
+  .content {
+    padding-left: 8px !important;
+    padding-right: 8px !important;
+  }
+}

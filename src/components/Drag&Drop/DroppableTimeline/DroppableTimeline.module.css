@@ -6,7 +6,6 @@
     transition: all 0.3s ease;
     margin: 0 auto;
     max-width: 100%;
-    
 }
 
 .timeline.drag-over {
@@ -26,4 +25,48 @@
     letter-spacing: 0;
     vertical-align: middle;
     text-transform: uppercase;
+}
+
+/* МОБИЛЬНАЯ ВЕРСИЯ ДЛЯ ТАЙМЛАЙНА */
+@media (max-width: 768px) {
+    .timeline-container {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        width: 100vw;
+        margin-left: -10px;
+        margin-right: -10px;
+        padding: 0 10px;
+    }
+    
+    .timeline {
+        min-width: 800px; /* Минимальная ширина для вмещения сеансов */
+        height: 50px;
+    }
+    
+    .hall-name {
+        font-size: 14px !important;
+        white-space: nowrap;
+    }
+    
+    /* Уменьшаем отступы для сеансов в таймлайне */
+    .seance-item {
+        padding: 4px 6px !important;
+        font-size: 12px !important;
+    }
+}
+
+@media (max-width: 390px) {
+    .timeline {
+        min-width: 700px;
+        height: 45px;
+    }
+    
+    .hall-name {
+        font-size: 13px !important;
+    }
+    
+    .seance-item {
+        padding: 3px 5px !important;
+        font-size: 11px !important;
+    }
 }

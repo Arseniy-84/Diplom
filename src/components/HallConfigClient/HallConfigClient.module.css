@@ -60,7 +60,6 @@
 .seats {
     display: flex;
     gap: 4px;
-    
 }
 
 .chairs {
@@ -73,7 +72,7 @@
 
 .chair {
     display: flex;
-    align-items: center
+    align-items: center;
 }
 
 .seat {
@@ -119,4 +118,99 @@
 
 .loading {
     color: var(--white);
+}
+
+/* ДОБАВЛЕНО: Подсказка для мобильных устройств */
+.tapHint {
+    text-align: center;
+    margin: 20px 0 10px;
+    padding: 12px 15px;
+    background: rgba(37, 196, 206, 0.1);
+    border-radius: 10px;
+    border: 1px dashed #25C4CE;
+    color: #fff;
+    font-size: 13px;
+    animation: fadeIn 0.5s ease;
+    max-width: 90%;
+}
+
+.tapIcon {
+    font-size: 22px;
+    margin-bottom: 6px;
+    animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-4px); }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Только для мобилок */
+@media (min-width: 769px) {
+    .tapHint {
+        display: none;
+    }
+}
+
+/* АДАПТИВНЫЕ СТИЛИ */
+@media (max-width: 768px) {
+    .container {
+        max-width: 100%;
+    }
+    
+    .chairs {
+        grid-template-columns: 1fr;
+        gap: 6px;
+        padding-left: 20px;
+        padding-right: 20px;
+        padding-top: 20px;
+    }
+    
+    .chair-text {
+        font-size: 13px;
+    }
+    
+    .screen {
+        max-width: 220px;
+    }
+}
+
+@media (max-width: 390px) {
+    .seance {
+        padding: 12px;
+    }
+    
+    .film-name,
+    .hall-name {
+        font-size: 15px;
+    }
+    
+    .seance-time {
+        font-size: 13px;
+    }
+    
+    .screen {
+        max-width: 180px;
+        padding-bottom: 20px;
+    }
+    
+    .seat {
+        width: 18px;
+        height: 18px;
+    }
+    
+    .tapHint {
+        font-size: 12px;
+        padding: 10px 12px;
+        margin: 15px 0 8px;
+    }
+    
+    .tapIcon {
+        font-size: 20px;
+    }
 }

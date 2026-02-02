@@ -87,3 +87,89 @@
 .button {
     align-self: center;
 }
+
+/* ДОБАВЛЕНО: Контейнер для QR-кода с белым фоном */
+.qrCode {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    margin: 20px 0;
+    border: 1px solid #eee;
+}
+
+/* ДОБАВЛЕНО: Подсказка под QR-кодом */
+.qrHint {
+    font-size: 14px;
+    color: #666;
+    text-align: center;
+    font-style: italic;
+    margin-top: 10px;
+}
+
+/* ДОБАВЛЕНО: Контейнер для инструкций с отступами */
+.instructions {
+    display: flex;
+    flex-direction: column;
+    gap: 16px; /* Отступ между абзацами */
+    margin-top: 20px;
+    line-height: 1.5;
+}
+
+.instructions div {
+    margin-bottom: 8px; /* Дополнительный отступ для надежности */
+}
+
+/* ДОБАВЛЕНО: Знак валюты для стоимости (если еще нет в JSX) */
+.costWithCurrency::after {
+    content: " ₽";
+}
+
+/* ДОБАВЛЕНО: Мобильная версия */
+@media (max-width: 768px) {
+    .container {
+        padding: 15px 10px 25px;
+        gap: 20px;
+    }
+    
+    .header {
+        font-size: 18px;
+        padding: 20px 10px;
+    }
+    
+    .qrCode {
+        padding: 20px;
+        margin: 15px 0;
+    }
+    
+    .instructions {
+        gap: 12px;
+        font-size: 14px;
+    }
+    
+    /* ДОБАВЛЕНО: Отступ для фоновой картинки на мобилке */
+    .pageContainer {
+        padding-bottom: 100px;
+    }
+}
+
+/* ДОБАВЛЕНО: Для очень маленьких экранов */
+@media (max-width: 390px) {
+    .qrCode {
+        padding: 15px;
+    }
+    
+    .qrCode svg {
+        width: 180px !important;
+        height: 180px !important;
+    }
+    
+    .instructions {
+        font-size: 13px;
+        gap: 10px;
+    }
+}

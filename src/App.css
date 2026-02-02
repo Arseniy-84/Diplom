@@ -4,3 +4,20 @@
   padding: 2rem;
   text-align: center;
 }
+
+/* ПЛАНШЕТНАЯ ВЕРСИЯ (полная ширина) */
+@media (max-width: 1024px) {
+  #root {
+    max-width: 100% !important;
+    width: 100% !important;
+    padding: 1rem !important;
+    margin: 0 !important;
+  }
+}
+
+/* МОБИЛЬНАЯ ВЕРСИЯ */
+@media (max-width: 768px) {
+  #root {
+    padding: 0.5rem !important;
+  }
+}

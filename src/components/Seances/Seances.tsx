@@ -69,7 +69,7 @@ export function Seances () {
             <div className={styles.film}
             key={film.id}>
                 <div className={styles.content}>
-                    <img src={film.film_poster} className={styles.poster} />
+                    <img src={film.film_poster} className={styles.poster} alt={film.film_name} />
                     <div className={styles.info}>
                         <div className={styles.name}>{film.film_name}</div>
                         <div>{film.film_description}</div>
@@ -93,22 +93,34 @@ export function Seances () {
                         <div className={styles.seances}>    
                             {hallSeances
                                 .sort((a, b) => a.seance_time.localeCompare(b.seance_time))
-                                .map(seance =>(                                   
-                                        <NavLink to={navigationData.date 
-                                            ? `/hallconfig?seanceId=${seance.id}&date=${navigationData.date}`
-                                            : '/'} key={seance.id} 
-                                            className={styles['seance-time']}
-                                        onClick={(e) => {
-                                            if (!navigationData.date || isSeancePassed(seance.seance_time, navigationData.date)) {
-                                                e.preventDefault();
+                                .map(seance => {
+                                    const isPassed = navigationData.date 
+                                        ? isSeancePassed(seance.seance_time, navigationData.date)
+                                        : false;
+                                    
+                                    return (                                   
+                                        <NavLink 
+                                            to={navigationData.date && !isPassed
+                                                ? `/hallconfig?seanceId=${seance.id}&date=${navigationData.date}`
+                                                : '#'} 
+                                            key={seance.id} 
+                                            className={`${styles['seance-time']} ${
+                                                isPassed ? styles.disabled : ''
+                                            }`}
+                                            onClick={(e) => {
+                                                if (!navigationData.date || isPassed) {
+                                                    e.preventDefault();
                                                 } else {
-                                                handleHallClickSeance(seance, film);
+                                                    handleHallClickSeance(seance, film);
                                                 }
-                                        }}
+                                            }}
+                                            style={isPassed ? { pointerEvents: 'none' } : {}}
                                         >
                                             {seance.seance_time}
+                                            {isPassed && <span className={styles['seance-time__disabled-indicator']} />}
                                         </NavLink>
-                                ))
+                                    );
+                                })
                             }
                         </div>    
                     </div>
@@ -117,3 +129,6 @@ export function Seances () {
         ))}
     </div>
 }
+
+
+export default Seances;

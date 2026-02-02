@@ -14,7 +14,8 @@ export function HallConfigClient () {
     const dispatch = useAppDispatch();
     const [searchParams] = useSearchParams();
     const [configArray, setConfigArray] = useState<SeatTypeClient[][]>([]);
-    const [selectedSeats, setSelectedSeats] = useState<SeatPosition[]>([])
+    const [selectedSeats, setSelectedSeats] = useState<SeatPosition[]>([]);
+    const [isMobile, setIsMobile] = useState(false); // Добавлено
     const { seances, films, halls, loading: hallsLoading, error: hallsError} = useAppData();
     const { dataHall } = useAppSelector(state => state.hall);
     const seanceId = searchParams.get('seanceId');
@@ -24,6 +25,17 @@ export function HallConfigClient () {
     const hall = halls.find(h => h.id === seance?.seance_hallid);
     const hasFetchedConfig = useRef(false);
 
+    // Добавлено: Определяем мобильное устройство
+    useEffect(() => {
+        const checkMobile = () => {
+            setIsMobile(window.innerWidth <= 768);
+        };
+        
+        checkMobile();
+        window.addEventListener('resize', checkMobile);
+        
+        return () => window.removeEventListener('resize', checkMobile);
+    }, []);
 
     useEffect(() => {
         if (dataHall?.result) {
@@ -68,27 +80,26 @@ export function HallConfigClient () {
     };
 
     const handleBuyTickets = async() => {
+        const tickets = selectedSeats.map(seat => {
+            const { rowIndex, seatIndex } = seat;
+            const seatType = configArray[rowIndex][seatIndex];
 
-    const tickets = selectedSeats.map(seat => {
-        const { rowIndex, seatIndex } = seat;
-        const seatType = configArray[rowIndex][seatIndex];
+            const getSeatPrice = (seatType: string): number => {
+                if (!hall) {
+                    throw new Error('Hall data is not available');
+                }
+                
+                if (seatType === 'vip') {
+                    return hall.hall_price_vip;
+                }
+                if (seatType === 'standart') {
+                    return hall.hall_price_standart;
+                }
+                
+                throw new Error(`Unknown seat type: ${seatType}`);
+            };
 
-        const getSeatPrice = (seatType: string): number => {
-            if (!hall) {
-                throw new Error('Hall data is not available');
-            }
-            
-            if (seatType === 'vip') {
-                return hall.hall_price_vip;
-            }
-            if (seatType === 'standart') {
-                return hall.hall_price_standart;
-            }
-            
-            throw new Error(`Unknown seat type: ${seatType}`);
-        };
-
-        const coast = getSeatPrice(seatType);
+            const coast = getSeatPrice(seatType);
 
             return {
                 row: rowIndex + 1,
@@ -142,7 +153,7 @@ export function HallConfigClient () {
             </div>
                 
             <div className={styles.hall}>
-                <img src="Client/screen.png" alt="картинка экрана" className={styles.screen}/>
+                <img src="/Client/screen.png" alt="Экран кинозала" className={styles.screen}/>
                 {hallsLoading || !dataHall?.result ? (
                     <div className={styles.loading}>Загрузка схемы зала...</div>
                 ) : hallsError ? (
@@ -152,24 +163,33 @@ export function HallConfigClient () {
                 ) : (
                 <div className={styles['hall-config']}>
                     {configArray.map((row, rowIndex: number) => (
-                                    <div key={rowIndex} className={styles.row}>
-                                        <div className={styles.seats}>
-                                            {row.map((seat, seatIndex: number) => (
-                                                <div 
-                                                className={cn(styles.seat,
-                                                    seat === 'standart' && styles['standart-chair'],
-                                                    seat === 'vip' && styles['vip-chair'],
-                                                    seat === 'taken' && styles['taken-chair'],
-                                                    isSeatSelected(rowIndex, seatIndex) && styles['selected-chair']
-                                                )}
-                                                key={`${rowIndex+1} ${seatIndex+1}`} 
-                                                onClick={()=> handleClickSeat(rowIndex, seatIndex, seat)}></div>
-                                                
-                                            ))}
-                                        </div>
-                                    </div>
+                        <div key={rowIndex} className={styles.row}>
+                            <div className={styles.seats}>
+                                {row.map((seat, seatIndex: number) => (
+                                    <div 
+                                        className={cn(styles.seat,
+                                            seat === 'standart' && styles['standart-chair'],
+                                            seat === 'vip' && styles['vip-chair'],
+                                            seat === 'taken' && styles['taken-chair'],
+                                            isSeatSelected(rowIndex, seatIndex) && styles['selected-chair']
+                                        )}
+                                        key={`${rowIndex+1} ${seatIndex+1}`} 
+                                        onClick={() => handleClickSeat(rowIndex, seatIndex, seat)}
+                                    ></div>
                                 ))}
+                            </div>
+                        </div>
+                    ))}
                 </div>)}
+                
+                {/* ДОБАВЛЕНО: Подсказка для мобильных устройств */}
+                {isMobile && selectedSeats.length > 0 && (
+                    <div className={styles.tapHint}>
+                        <div className={styles.tapIcon}>👆👆</div>
+                        <p>Тапните дважды по выбранному месту, чтобы отменить выбор</p>
+                    </div>
+                )}
+                
                 <div className={styles.chairs}>
                     <div className={styles.chair}>
                         <div className={cn(styles.seat, styles['standart-chair'])}></div>
@@ -189,10 +209,10 @@ export function HallConfigClient () {
                     </div>
                 </div>
             </div>
+            
             <div className={styles.button}>
                 <Button appereance="big" onClick={handleBuyTickets}>Забронировать</Button>
             </div>
-            
         </div>
     </>
 }

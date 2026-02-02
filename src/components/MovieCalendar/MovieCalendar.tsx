@@ -29,9 +29,11 @@ export function MovieCalendar () {
             date,
             id: format(date, 'yyyy-MM-dd'),
             shortLabel: format(date, 'dd'),
-            shortWeekDay: format(date, 'EEEEEE', {locale: ru}),
+            // ИЗМЕНЕНО: Полное название дня с заглавной буквы
+            shortWeekDay: format(date, 'EEEE', {locale: ru}),
             isToday: isToday(date),
-            isWeekend: ['сб', 'вс'].includes(format(date, 'EEEEEE', { locale: ru }))
+            // ИЗМЕНЕНО: Проверка на полное название
+            isWeekend: ['суббота', 'воскресенье'].includes(format(date, 'EEEE', { locale: ru }))
         }))
     }
 
@@ -98,45 +100,63 @@ export function MovieCalendar () {
         }));
     }
 
-    return  <div>
-                <nav className={styles.container}>
-                    <Slider {...sliderSettings}>
-                    
-            {dates.map((date) => {
-                const isActive = activeSeance === date.id || 
-                        (!activeSeance && dates[0]?.id === date.id);
+    // ДОБАВЛЕНО: Функция для форматирования дня недели
+    const formatDayName = (dayName: string) => {
+        return dayName.charAt(0).toUpperCase() + dayName.slice(1);
+    };
 
-                if(date.isToday) {
+    return  (
+        <div>
+            <nav className={styles.container}>
+                <Slider {...sliderSettings}>
+                    {dates.map((date) => {
+                        const isActive = activeSeance === date.id || 
+                                (!activeSeance && dates[0]?.id === date.id);
+                        
+                        // ДОБАВЛЕНО: Единая логика для всех дней
+                        const dayNameFormatted = formatDayName(date.shortWeekDay);
+                        const isWeekendClass = date.isWeekend ? styles.weekend : '';
+                        const isActiveClass = isActive ? styles['date-active'] : '';
+
+                        if(date.isToday) {
+                            return  (
+                                <div key={date.id} className={styles.slide}>
+                                    <NavLink 
+                                        to={`?seance=${date.id}`}
+                                        className={`${styles.date} ${isActiveClass} ${isWeekendClass}`}
+                                        onClick={() => dateActiveClick(date)}
+                                    >   
+                                        <div className={styles['date-content']}>
+                                            {/* ДОБАВЛЕН класс todayLabel для пробела после запятой */}
+                                            <span className={styles.todayLabel}>Сегодня</span>
+                                            <span>{dayNameFormatted}, {date.shortLabel}</span>
+                                        </div>
+                                    </NavLink>
+                                </div>
+                            );
+                        }    
+                        
                         return  (
                             <div key={date.id} className={styles.slide}>
                                 <NavLink 
-                                    key={date.id}
                                     to={`?seance=${date.id}`}
-                                    className={`${styles.date} ${isActive ? styles['date-active'] : ''}`}
-                                    onClick={() => dateActiveClick(date)}>   
-                                        <div >Сегодня</div>
-                                        <div>{date.shortWeekDay},{date.shortLabel}</div>   
-                                </NavLink>
-                            </div>)
-                    }    
-                return  (<div key={date.id} className={styles.slide}>
-                    <NavLink 
-                            key={date.id}
-                            to={`?seance=${date.id}`}
-                            className={`${styles.date} ${isActive ? styles['date-active'] : date.isWeekend ? styles.weekend : ''}`}
-                            onClick={() => dateActiveClick(date)}>
-                            
-                                <div>{date.shortWeekDay},</div>
-                                <div>{date.shortLabel}</div>                   
-                        </NavLink> 
-                </div>)
-                })
-            }
-            
+                                    className={`${styles.date} ${isActiveClass} ${isWeekendClass}`}
+                                    onClick={() => dateActiveClick(date)}
+                                >
+                                    <div className={styles['date-content']}>
+                                        {/* ИСПРАВЛЕНО: Форматированный день недели */}
+                                        <span className={styles.dayName}>{dayNameFormatted}</span>
+                                        <span>{date.shortLabel}</span>
+                                    </div>
+                                </NavLink> 
+                            </div>
+                        );
+                    })}
                 </Slider>    
-        </nav>            
-        <div>
-            <Seances />
+            </nav>            
+            <div>
+                <Seances />
+            </div>
         </div>
-    </div>       
+    );       
 }

@@ -9,9 +9,8 @@ import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../store/store";
 import { addFilm } from "../../store/filmOperationsSlice.slice";
 
-
-export function PopupAddFilm ({ onClose, onSuccess }: PopupProps) {
-    const [error, setError] = useState<string | null>();
+export function PopupAddFilm({ onClose, onSuccess }: PopupProps) {
+    const [error, setError] = useState<string | null>(null); // Исправлено
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
     const [previewUrl, setPreviewUrl] = useState<string | null>(null);
     const fileInputRef = useRef<HTMLInputElement>(null);
@@ -27,7 +26,7 @@ export function PopupAddFilm ({ onClose, onSuccess }: PopupProps) {
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
         if (file) {
-            setError(null)
+            setError(null);
             setSelectedFile(file);
             const url = URL.createObjectURL(file);
             setPreviewUrl(url);
@@ -41,8 +40,6 @@ export function PopupAddFilm ({ onClose, onSuccess }: PopupProps) {
             fileInputRef.current.value = '';
         }
     };
-
-    
 
     const submit = async (e: FormEvent) => {
         e.preventDefault();
@@ -74,7 +71,7 @@ export function PopupAddFilm ({ onClose, onSuccess }: PopupProps) {
         await handleAddFilm(formData);        
     }
 
-    const handleAddFilm= async (formData: FormData) => {
+    const handleAddFilm = async (formData: FormData) => {
         try {
             const res = await dispatch(addFilm(formData)).unwrap();
 
@@ -86,39 +83,54 @@ export function PopupAddFilm ({ onClose, onSuccess }: PopupProps) {
                 navigate('/admin/cabinet');
             }
         } catch (e: any) {
-            console.error('Error creating hall:', e);
-            setError(e.response?.data?.message || 'Ошибка при создании зала');
+            console.error('Error adding film:', e); // Исправлено описание
+            setError(e.response?.data?.message || 'Ошибка при добавлении фильма');
         }
     }
 
-    return <div className={styles.popup}>
-        <div className={styles.head}>
-            <Headling appearence="admin"> Добавление фильма</Headling>
-            <img src="../Admin/close-icon.svg" alt="иконка крестика" className={styles.icon}  onClick={onClose || (() => navigate('/admin/cabinet'))}/>
-        </div>       
-        <form className={styles.form} onSubmit={submit}>
-            <div className={styles['input-block']}>
-                <label htmlFor="filmName" className={styles.title}>Название фильма</label>
-                <Input id="filmName" name="filmName" placeholder="Например, «Гражданин Кейн»»" className={styles.input}/> 
-            </div>
-            <div className={styles['input-block']}>
-                <label htmlFor="filmDuration" className={styles.title}>Продолжительность фильма (мин.)</label>
-                <Input id="filmDuration" name="filmDuration" className={styles.input}/>
+    return (
+        <div className={styles.popup}>
+            <div className={styles.head}>
+                <Headling appearence="admin">Добавление фильма</Headling>
+                {/* ИКОНКА 1: Крестик закрытия окна - ИСПРАВЛЕН ПУТЬ */}
+                <img 
+                    src="/Admin/close-icon.svg" 
+                    alt="иконка крестика" 
+                    className={styles.icon}  
+                    onClick={onClose || (() => navigate('/admin/cabinet'))}
+                />
+            </div>       
+            
+            <form className={styles.form} onSubmit={submit}>
+                <div className={styles['input-block']}>
+                    <label htmlFor="filmName" className={styles.title}>Название фильма</label>
+                    <Input id="filmName" name="filmName" placeholder="Например, «Гражданин Кейн»" className={styles.input}/> 
+                </div>
+                <div className={styles['input-block']}>
+                    <label htmlFor="filmDuration" className={styles.title}>Продолжительность фильма (мин.)</label>
+                    <Input id="filmDuration" name="filmDuration" className={styles.input}/>
+                </div>
+                <div className={styles['input-block']}>
+                    <label htmlFor="filmDescription" className={styles.title}>Описание фильма</label>
+                    <textarea name="filmDescription" id="filmDescription" className={cn(styles.input, styles.description)}></textarea>
+                </div>
+                <div className={styles['input-block']}>
+                    <label htmlFor="filmOrigin" className={styles.title}>Страна</label>
+                    <Input id="filmOrigin" name="filmOrigin" className={styles.input}/>
+                </div>
                 
-            </div>
-            <div className={styles['input-block']}>
-                <label htmlFor="filmDescription" className={styles.title}>Описание фильма</label>
-                <textarea name="filmDescription" id="filmDescription" className={cn(styles.input, styles.description)}></textarea>
-            </div>
-            <div className={styles['input-block']}>
-                <label htmlFor="filmOrigin" className={styles.title}>Страна</label>
-                <Input id="filmOrigin" name="filmOrigin" className={styles.input}/>
-            </div>
-            {hallsLoading ? <div className={styles.loading}>Добавление фильма...</div> : error ? <div className={styles.error} >{error}</div> : null} 
-            <div className={styles.buttons}>
-                <Button type="submit" appereance="admin">Добавить фильм</Button>
-                <Button type="button" appereance="admin" onClick={handleUploadClick} disabled={hallsLoading}>Загрузить постер</Button> 
-                <input 
+                {hallsLoading ? (
+                    <div className={styles.loading}>Добавление фильма...</div>
+                ) : error ? (
+                    <div className={styles.error}>{error}</div>
+                ) : null} 
+                
+                <div className={styles.buttons}>
+                    <Button type="submit" appereance="admin">Добавить фильм</Button>
+                    <Button type="button" appereance="admin" onClick={handleUploadClick} disabled={hallsLoading}>
+                        Загрузить постер
+                    </Button> 
+                    <input 
                         type="file"
                         name="filePoster"
                         ref={fileInputRef}
@@ -126,17 +138,31 @@ export function PopupAddFilm ({ onClose, onSuccess }: PopupProps) {
                         accept="image/*"
                         style={{ display: 'none' }}
                     />
-                <Button type="button" appereance="cancel" onClick={onClose || (() => navigate('/admin/cabinet'))}>Отменить</Button>
-            </div>
-            
-        </form>
-        {previewUrl && (
-            <div className={styles['preview-container']}>
-                <div className={styles.preview}>
-                    <img src={previewUrl} alt="Предпросмотр постера"  className={styles['preview-image']}/>
-                    <img src="../../Admin/close-icon.svg" alt="иконка крестика" onClick={handleRemovePoster} className={styles['remove-icon']}/>
+                    <Button type="button" appereance="cancel" onClick={onClose || (() => navigate('/admin/cabinet'))}>
+                        Отменить
+                    </Button>
                 </div>
-            </div>
-        )}
-    </div>
+            </form>
+            
+            {/* БЛОК ПРЕДПРОСМОТРА ПОСТЕРА */}
+            {previewUrl && (
+                <div className={styles['preview-container']}>
+                    <div className={styles.preview}>
+                        <img 
+                            src={previewUrl} 
+                            alt="Предпросмотр постера"  
+                            className={styles['preview-image']}
+                        />
+                        {/* ИКОНКА 2: Крестик удаления постера - ИСПРАВЛЕН ПУТЬ */}
+                        <img 
+                            src="/Admin/close-icon.svg" 
+                            alt="Удалить постер" 
+                            onClick={handleRemovePoster} 
+                            className={styles['remove-icon']}
+                        />
+                    </div>
+                </div>
+            )}
+        </div>
+    );
 }
