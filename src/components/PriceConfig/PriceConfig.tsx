@@ -6,6 +6,7 @@ import Input from '../Input/Input';
 import Button from '../Button/Button';
 import { configPrice } from '../../store/hallOperationsSlice.slice';
 import { useAppData } from '../../hooks/useAppData';
+import { assetPath } from '../../helpers/assetPath';
 
 
 export function PriceConfig () {
@@ -125,14 +126,14 @@ export function PriceConfig () {
                             <label htmlFor="priceStandart">Цена, рублей</label>
                             <Input id="priceStandart" onChange={handleChangeForm} name="priceStandart" value={formValue.priceStandart}/>
                         </div>
-                            <div className={styles.chair}><span>&nbsp;за</span>&nbsp;<img src="../Admin/regular-chair-icon.svg" alt="иконка для обычных кресел" />&nbsp;<span>обычные кресла</span></div>
+                            <div className={styles.chair}><span>&nbsp;за</span>&nbsp;<img src={assetPath('Admin/regular-chair-icon.svg')} alt="иконка для обычных кресел" />&nbsp;<span>обычные кресла</span></div>
                     </div>
                     <div className={styles.field}>
                         <div className={styles.input}>
                             <label htmlFor="priceVip">Цена, рублей</label>
                             <Input id="priceVip" name="priceVip" onChange={handleChangeForm} value={formValue.priceVip}/>
                         </div>
-                        <div className={styles.chair}><span>&nbsp;за</span>&nbsp;<img src="../Admin/VIP-chair-icon.svg" alt="иконка для VIP кресел" />&nbsp;<span>VIP кресла</span></div>
+                        <div className={styles.chair}><span>&nbsp;за</span>&nbsp;<img src={assetPath('Admin/VIP-chair-icon.svg')} alt="иконка для VIP кресел" />&nbsp;<span>VIP кресла</span></div>
                     </div>
                 </div>
             </div>

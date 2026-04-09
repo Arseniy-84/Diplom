@@ -17,24 +17,18 @@
     font-weight: var(--font-bold);
     font-size: 16px;
     line-height: 18px;
-    letter-spacing: 0;
-    vertical-align: middle;
 }
 
 .seance-time {
     font-weight: var(--font-light);
     font-size: 14px;
     line-height: 16px;
-    letter-spacing: 0;
-    vertical-align: middle;
 }
 
 .hall-name {
     font-weight: var(--font-bold);
     font-size: 16px;
     line-height: 18px;
-    letter-spacing: 0;
-    vertical-align: middle;
     text-transform: capitalize;
 }
 
@@ -43,18 +37,54 @@
     flex-direction: column;
     align-items: center;
     background: #171D24;
-    padding: 15px 0;
+    padding: 15px 0 24px;
 }
 
 .screen {
     max-width: 284px;
-    padding-bottom: 30px;
+    padding-bottom: 16px;
+}
+
+.tapHint {
+    display: none;
+}
+
+.tapHintIcon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+.tapHintIcon span {
+    width: 16px;
+    height: 24px;
+    border-radius: 10px;
+    border: 2px solid rgba(255, 255, 255, 0.85);
+    display: inline-block;
+    position: relative;
+}
+
+.tapHintIcon span::before {
+    content: '';
+    position: absolute;
+    top: 3px;
+    left: 50%;
+    width: 2px;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.85);
+    transform: translateX(-50%);
 }
 
 .hall-config {
     display: flex;
     flex-direction: column;
-    gap: 4px; 
+    gap: 4px;
+}
+
+.row {
+    display: flex;
 }
 
 .seats {
@@ -65,7 +95,7 @@
 .chairs {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 8px;
+    gap: 8px 20px;
     padding-top: 30px;
     padding-left: 80px;
 }
@@ -78,13 +108,12 @@
 .seat {
     width: 20px;
     height: 20px;
-    opacity: 1;
     border-radius: 4px;
     border: solid 1px #525252;
     cursor: pointer;
 }
 
-.standart-chair {   
+.standart-chair {
     background: var(--white);
 }
 
@@ -99,15 +128,13 @@
 
 .selected-chair {
     background: #25C4CE;
-    box-shadow: 0px 0px 4px 0px #16A6AF;
+    box-shadow: 0 0 4px 0 #16A6AF;
 }
 
 .chair-text {
     font-weight: var(--font-light);
     font-size: 14px;
     line-height: 16px;
-    letter-spacing: 0;
-    vertical-align: middle;
     color: var(--white);
 }
 
@@ -116,67 +143,31 @@
     padding-top: 30px;
 }
 
-.loading {
+.loading,
+.error {
     color: var(--white);
 }
 
-/* ДОБАВЛЕНО: Подсказка для мобильных устройств */
-.tapHint {
-    text-align: center;
-    margin: 20px 0 10px;
-    padding: 12px 15px;
-    background: rgba(37, 196, 206, 0.1);
-    border-radius: 10px;
-    border: 1px dashed #25C4CE;
-    color: #fff;
-    font-size: 13px;
-    animation: fadeIn 0.5s ease;
-    max-width: 90%;
-}
-
-.tapIcon {
-    font-size: 22px;
-    margin-bottom: 6px;
-    animation: bounce 2s infinite;
-}
-
-@keyframes bounce {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-4px); }
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-/* Только для мобилок */
-@media (min-width: 769px) {
-    .tapHint {
-        display: none;
-    }
-}
-
-/* АДАПТИВНЫЕ СТИЛИ */
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
     .container {
         max-width: 100%;
     }
-    
+}
+
+@media (max-width: 768px) {
     .chairs {
-        grid-template-columns: 1fr;
-        gap: 6px;
-        padding-left: 20px;
-        padding-right: 20px;
-        padding-top: 20px;
+        width: 100%;
+        padding: 24px 16px 0;
     }
-    
-    .chair-text {
+
+    .tapHint {
+        display: block;
+        max-width: 320px;
+        margin: 0 auto 18px;
+        text-align: center;
         font-size: 13px;
-    }
-    
-    .screen {
-        max-width: 220px;
+        line-height: 15px;
+        color: rgba(255, 255, 255, 0.85);
     }
 }
 
@@ -184,33 +175,31 @@
     .seance {
         padding: 12px;
     }
-    
+
     .film-name,
     .hall-name {
         font-size: 15px;
     }
-    
-    .seance-time {
-        font-size: 13px;
-    }
-    
+
     .screen {
         max-width: 180px;
-        padding-bottom: 20px;
+        padding-bottom: 12px;
     }
-    
+
     .seat {
         width: 18px;
         height: 18px;
     }
-    
-    .tapHint {
-        font-size: 12px;
-        padding: 10px 12px;
-        margin: 15px 0 8px;
+
+    .chairs {
+        grid-template-columns: 1fr;
+        gap: 8px;
+        padding: 24px 12px 0;
     }
-    
-    .tapIcon {
-        font-size: 20px;
+
+    .tapHint {
+        max-width: 260px;
+        font-size: 12px;
+        line-height: 14px;
     }
 }

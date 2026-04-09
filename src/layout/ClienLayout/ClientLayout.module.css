@@ -1,86 +1,50 @@
 .client-layout {
-    background-image: url('../../../public/Client/background-image_client.png');
+    background-image: var(--client-layout-bg);
     background-repeat: no-repeat;
     background-size: cover;
     margin: 0;
     padding: 0;
     min-height: 100vh;
     max-width: 100%;
-    overflow: hidden;
+    overflow-x: hidden;
 }
 
 .main {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    
     max-width: 990px;
     width: 100%;
-    margin: auto;
-    padding: 0 16px;
+    margin: 0 auto;
     box-sizing: border-box;
 }
 
 .logo {
     display: flex;
     justify-content: space-between;
-    align-items: center; 
-    padding: 14px; 
+    align-items: center;
+    padding: 14px 0;
     gap: 16px;
     max-width: 990px;
-    margin: auto;
+    margin: 0 auto;
+    width: 100%;
 }
 
 .content {
-    align-self: center;
     width: 100%;
-    max-width: 100%;
 }
 
-/* ПЛАНШЕТНАЯ ВЕРСИЯ (полная ширина) */
 @media (max-width: 1024px) {
-    .main {
-        max-width: 100% !important;
-        width: 100% !important;
-        margin: 0 !important;
-        padding: 0 12px !important;
-    }
-    
+    .main,
     .logo {
-        max-width: 100% !important;
-        margin: 0 !important;
-        padding: 14px 12px !important;
-    }
-    
-    .client-layout {
-        background-size: cover;
-        background-position: center;
+        max-width: 100%;
+        padding-left: 0;
+        padding-right: 0;
     }
 }
 
-@media (min-width: 391px) and (max-width: 767px) { 
-    .main {
-        margin: 0;
-        padding: 0 10px;
-    }
-    
+@media (max-width: 768px) {
     .logo {
-        padding: 12px 10px !important;
-    }
-}
-
-@media (max-width: 390px) {
-    .main {
-        margin: 0;
-        padding: 0 8px;
-    }
-
-    .client-layout {
-        background-size: cover;
-        background-position: center;
-    }
-    
-    .logo {
-        padding: 10px 8px !important;
+        padding: 12px 0;
     }
 }

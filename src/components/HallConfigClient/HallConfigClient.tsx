@@ -7,6 +7,7 @@ import Button from "../Button/Button";
 import cn from 'classnames'
 import type { SeatPosition, SeatTypeClient } from "../../interfaces/Hall.interface";
 import { useAppData } from "../../hooks/useAppData";
+import { assetPath } from "../../helpers/assetPath";
 
 
 export function HallConfigClient () {
@@ -15,7 +16,6 @@ export function HallConfigClient () {
     const [searchParams] = useSearchParams();
     const [configArray, setConfigArray] = useState<SeatTypeClient[][]>([]);
     const [selectedSeats, setSelectedSeats] = useState<SeatPosition[]>([]);
-    const [isMobile, setIsMobile] = useState(false); // Добавлено
     const { seances, films, halls, loading: hallsLoading, error: hallsError} = useAppData();
     const { dataHall } = useAppSelector(state => state.hall);
     const seanceId = searchParams.get('seanceId');
@@ -24,18 +24,6 @@ export function HallConfigClient () {
     const film = films.find(f => f.id === seance?.seance_filmid);
     const hall = halls.find(h => h.id === seance?.seance_hallid);
     const hasFetchedConfig = useRef(false);
-
-    // Добавлено: Определяем мобильное устройство
-    useEffect(() => {
-        const checkMobile = () => {
-            setIsMobile(window.innerWidth <= 768);
-        };
-        
-        checkMobile();
-        window.addEventListener('resize', checkMobile);
-        
-        return () => window.removeEventListener('resize', checkMobile);
-    }, []);
 
     useEffect(() => {
         if (dataHall?.result) {
@@ -128,6 +116,7 @@ export function HallConfigClient () {
                             tickets: result.result, 
                             filmName: result.result[0]?.ticket_filmname, 
                             seanceTime: result.result[0]?.ticket_time,
+                            seanceDate: date,
                             totalCoast: totalCoast,
                             hallName: result.result[0]?.ticket_hallname,
                             selectedSeatsInfo: selectedSeatsInfo
@@ -153,7 +142,14 @@ export function HallConfigClient () {
             </div>
                 
             <div className={styles.hall}>
-                <img src="/Client/screen.png" alt="Экран кинозала" className={styles.screen}/>
+                <img src={assetPath('Client/screen.png')} alt="Экран кинозала" className={styles.screen}/>
+                <div className={styles.tapHint}>
+                    <div className={styles.tapHintIcon} aria-hidden="true">
+                        <span></span>
+                        <span></span>
+                    </div>
+                    <p>Тапните дважды по выбранному месту, чтобы снять выбор</p>
+                </div>
                 {hallsLoading || !dataHall?.result ? (
                     <div className={styles.loading}>Загрузка схемы зала...</div>
                 ) : hallsError ? (
@@ -183,13 +179,6 @@ export function HallConfigClient () {
                 </div>)}
                 
                 {/* ДОБАВЛЕНО: Подсказка для мобильных устройств */}
-                {isMobile && selectedSeats.length > 0 && (
-                    <div className={styles.tapHint}>
-                        <div className={styles.tapIcon}>👆👆</div>
-                        <p>Тапните дважды по выбранному месту, чтобы отменить выбор</p>
-                    </div>
-                )}
-                
                 <div className={styles.chairs}>
                     <div className={styles.chair}>
                         <div className={cn(styles.seat, styles['standart-chair'])}></div>

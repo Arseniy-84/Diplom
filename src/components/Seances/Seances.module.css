@@ -2,7 +2,7 @@
     display: flex;
     flex-direction: column;
     gap: 30px;
-    padding-top: 30px; 
+    padding-top: 30px;
 }
 
 .film {
@@ -23,16 +23,6 @@
     height: 175px;
 }
 
-.info::after {
-    content: '';
-    position: absolute;
-    background-image: url('../../../public/Client/after-poster-icon-desktop.png');
-    top: 0;
-    left: -15px;
-    width: 6px;
-    height: 14px;
-}
-
 .info {
     position: relative;
     display: flex;
@@ -40,71 +30,71 @@
     gap: 10px;
 }
 
+.info::after {
+    content: '';
+    position: absolute;
+    background-image: var(--poster-accent-image);
+    top: 0;
+    left: -15px;
+    width: 6px;
+    height: 14px;
+}
+
 .name {
     font-weight: var(--font-bold);
     font-size: 16px;
     line-height: 18px;
-    letter-spacing: 0;
-    vertical-align: middle;
+}
+
+.description {
+    font-size: 14px;
+    line-height: 21px;
 }
 
 .second-info {
     display: flex;
     gap: 3px;
     color: var(--text-secondary);
-}
-
-.halls {
-    display: flex;
-    flex-direction: column;
+    font-size: 14px;
+    line-height: 16px;
 }
 
 .hall {
     display: flex;
     flex-direction: column;
     gap: 7px;
-} 
+}
 
 .hall-name {
     font-weight: var(--font-bold);
     font-size: 16px;
     line-height: 18px;
-    letter-spacing: 0;
-    vertical-align: middle;
     text-transform: capitalize;
 }
 
 .seances {
     display: flex;
+    flex-wrap: wrap;
     gap: 4px;
 }
 
 .seance-time {
-    padding: 8px;
+    padding: 8px 12px;
     background: var(--white);
     border-radius: 2px;
     cursor: pointer;
-
     font-weight: var(--font-normal);
     font-size: 15px;
     line-height: 17px;
-    letter-spacing: 0;
-    vertical-align: middle;
     text-decoration: none;
     color: var(--black);
-
-    box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.12);
-    
-    /* Добавлено для плавности */
-    transition: all 0.2s ease;
-    position: relative; /* Для тултипа */
+    box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.12);
+    position: relative;
 }
 
 .seance-time:hover {
-    box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.24);
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.24);
 }
-
-/* СТИЛИ ДЛЯ ЗАБЛОКИРОВАННЫХ (ПРОШЕДШИХ) СЕАНСОВ */
 
 .seance-time.disabled {
     background-color: #f5f5f5 !important;
@@ -116,11 +106,9 @@
 
 .seance-time.disabled:hover {
     background-color: #e8e8e8 !important;
-    transform: none !important;
-    box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.12) !important; /* Оставляем тень, но без подъема */
+    box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.12) !important;
 }
 
-/* Индикатор заблокированного сеанса (точка) */
 .seance-time__disabled-indicator {
     display: inline-block;
     width: 6px;
@@ -131,7 +119,6 @@
     vertical-align: middle;
 }
 
-/* Тултип при наведении на заблокированный сеанс */
 .seance-time.disabled:hover::before {
     content: "Сеанс уже начался";
     position: absolute;
@@ -149,7 +136,6 @@
     font-weight: normal;
 }
 
-/* Стрелочка тултипа */
 .seance-time.disabled:hover::after {
     content: "";
     position: absolute;
@@ -162,39 +148,31 @@
     pointer-events: none;
 }
 
-/* АДАПТИВНЫЕ СТИЛИ */
+@media (max-width: 1024px) {
+    .film {
+        width: 100%;
+    }
+}
 
-@media (min-width: 391px) and (max-width: 768px) {
+@media (max-width: 768px) {
     .container {
         padding-top: 20px;
         gap: 20px;
     }
-    
+
     .film {
         padding: 12px;
         gap: 15px;
     }
-    
+
     .poster {
         width: 100px;
         height: 140px;
     }
-    
-    .seances {
-        flex-wrap: wrap;
-        gap: 3px;
-    }
-    
+
     .seance-time {
-        padding: 6px 8px;
+        padding: 6px 10px;
         font-size: 14px;
-    }
-    
-    /* Для мобилок уменьшаем тултип */
-    .seance-time.disabled:hover::before {
-        font-size: 11px;
-        padding: 5px 8px;
-        bottom: calc(100% + 6px);
     }
 }
 
@@ -203,47 +181,45 @@
         padding-top: 15px;
         gap: 15px;
     }
-    
+
     .film {
         padding: 10px;
         gap: 12px;
     }
-    
+
     .content {
         gap: 10px;
     }
-    
+
     .poster {
         width: 80px;
         height: 112px;
     }
-    
+
     .name {
         font-size: 15px;
     }
-    
-    .seances {
-        flex-wrap: wrap;
-        gap: 2px;
+
+    .description,
+    .second-info {
+        font-size: 12px;
+        line-height: 16px;
     }
-    
+
+    .seances {
+        gap: 6px;
+    }
+
     .seance-time {
-        padding: 5px 7px;
+        padding: 5px 8px;
         font-size: 13px;
-        flex: 1;
-        min-width: 60px;
+        flex: 0 0 auto;
+        min-width: 0;
         text-align: center;
     }
-    
-    /* На очень маленьких экранах скрываем тултип */
+
     .seance-time.disabled:hover::before,
     .seance-time.disabled:hover::after {
         display: none;
-    }
-    
-    .seance-time__disabled-indicator {
-        width: 5px;
-        height: 5px;
-        margin-left: 4px;
     }
 }

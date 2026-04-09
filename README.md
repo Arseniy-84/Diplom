@@ -1,3 +1,9 @@
+### Ссылки на проект
+
+[Опубликованный проект на GitHub Pages](https://arseniy-84.github.io/Diplom/)
+
+[GitHub-репозиторий проекта](https://github.com/Arseniy-84/Diplom)
+
 ### Технологический стек проекта
 
 **Архитектура и сборка**

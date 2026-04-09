@@ -1,7 +1,8 @@
 .container {
     display: flex;
     flex-direction: column;
-    align-items: flex-start
+    align-items: flex-start;
+    width: 100%;
 }
 
 .add {
@@ -94,7 +95,6 @@
     gap: 13px;
     width: 100%;
     max-width: 720px;
-    padding-right: 20px;
 }
 
 .halls {
@@ -139,7 +139,8 @@
     justify-content: center;
     align-items: center;
     z-index: 1000;
-    overflow: hidden;
+    overflow: auto;
+    padding: 16px;
 }
 
 .popupContent {
@@ -148,6 +149,12 @@
     max-height: 90vh;
     margin: auto;
     animation: slideDown 0.3s ease-in-out;
+}
+
+@media (max-width: 1024px) {
+    .seances-grid {
+        max-width: 100%;
+    }
 }
 
 .closeOverlay:hover {

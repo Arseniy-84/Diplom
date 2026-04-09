@@ -1,62 +1,70 @@
 import { useLocation } from "react-router-dom";
 import Button from "../Button/Button";
-import styles from './PaymentClient.module.css'
+import styles from "./PaymentClient.module.css";
 import { useState } from "react";
 import { QRCodeSVG } from "qrcode.react";
+import { assetPath } from "../../helpers/assetPath";
+
+type Ticket = {
+    row: number;
+    place: number;
+    coast: number;
+};
 
 export function Payment() {
     const [showQR, setShowQR] = useState(false);
-    
     const location = useLocation();
-    const { filmName, hallName, seanceTime, totalCoast, selectedSeatsInfo } = location.state || {};
+    const {
+        filmName,
+        hallName,
+        seanceTime,
+        seanceDate,
+        totalCoast,
+        selectedSeatsInfo,
+        tickets = []
+    } = location.state || {};
 
-    // Извлекаем дату из seanceTime или получаем текущую дату
-    // Предполагаем, что seanceTime содержит дату и время, например: "2024-03-15 18:30"
-    const getDateFromSeanceTime = (timeString: string) => {
-        if (!timeString) return new Date().toLocaleDateString('ru-RU');
-        try {
-            const [datePart] = timeString.split(' ');
-            return datePart.split('-').reverse().join('.'); // Преобразуем "2024-03-15" в "15.03.2024"
-        } catch {
-            return new Date().toLocaleDateString('ru-RU');
+    const formatTicketDate = (dateString?: string) => {
+        if (!dateString) {
+            return new Date().toLocaleDateString("ru-RU");
         }
-    };
 
-    const getTimeFromSeanceTime = (timeString: string) => {
-        if (!timeString) return '';
-        try {
-            const [, timePart] = timeString.split(' ');
-            return timePart || '';
-        } catch {
-            return '';
+        const [year, month, day] = dateString.split("-");
+        if (!year || !month || !day) {
+            return dateString;
         }
+
+        return `${day}.${month}.${year}`;
     };
 
-    const handleGetCode = () => {
-        setShowQR(true);
-    };
+    const ticketRows = (tickets as Ticket[]).map((ticket) => ticket.row).join(", ");
+    const ticketPlaces = (tickets as Ticket[]).map((ticket) => ticket.place).join(", ");
 
-    // Формируем полную строку для QR-кода
-    const qrValue = `
-БИЛЕТ В КИНО
-══════════════════
-Фильм: ${filmName || 'Не указан'}
-Дата: ${getDateFromSeanceTime(seanceTime)}
-Время: ${getTimeFromSeanceTime(seanceTime)}
-Зал: ${hallName || 'Не указан'}
-Места: ${selectedSeatsInfo || 'Не указаны'}
-Стоимость: ${totalCoast || 0} ₽
-══════════════════
-Билет действителен строго на свой сеанс.
-`.trim();
+    const qrValue = [
+        "БИЛЕТ В КИНО",
+        `Фильм: ${filmName || "Не указан"}`,
+        `Дата: ${formatTicketDate(seanceDate)}`,
+        `Время: ${seanceTime || "Не указано"}`,
+        `Зал: ${hallName || "Не указан"}`,
+        `Ряд: ${ticketRows || "Не указан"}`,
+        `Место: ${ticketPlaces || "Не указано"}`,
+        `Стоимость: ${totalCoast || 0} ₽`,
+        "Билет действителен строго на свой сеанс."
+    ].join("\n");
 
     return (
-        <div>
+        <div
+            className={styles.page}
+            style={{
+                ["--ticket-top-image" as string]: `url(${assetPath("Client/circle-top-ticket.png")})`,
+                ["--ticket-bottom-image" as string]: `url(${assetPath("Client/circle-bot-ticket.png")})`
+            }}
+        >
             <div className={styles.header}>
-                {!showQR ? `Вы выбрали билеты:` : `Электронный билет`}
+                {!showQR ? "Вы выбрали билеты:" : "Электронный билет"}
             </div>
             <div className={styles.container}>
-                <div className={styles['ticket-info']}>
+                <div className={styles["ticket-info"]}>
                     <div className={styles.property}>
                         На фильм:&nbsp;<span>{filmName}</span>
                     </div>
@@ -75,36 +83,28 @@ export function Payment() {
                         </div>
                     )}
                 </div>
-                
+
                 <div className={styles.button}>
                     {!showQR ? (
-                        <Button appereance="big" onClick={handleGetCode}>
+                        <Button appereance="big" onClick={() => setShowQR(true)}>
                             Получить код бронирования
                         </Button>
                     ) : (
                         <div className={styles.qrCode}>
-                            <QRCodeSVG 
-                                value={qrValue}  // Используем полную строку
-                                size={200}
-                                level="H"  // Высокая степень коррекции ошибок
-                                includeMargin={true}
-                            />
-                            <div className={styles.qrHint}>
-                                QR-код содержит все данные о билете
-                            </div>
+                            <QRCodeSVG value={qrValue} size={200} level="H" includeMargin={true} />
                         </div>
                     )}
                 </div>
-                
+
                 <div className={styles.instructions}>
                     {!showQR ? (
                         <div>
-                            После оплаты билет будет доступен в этом окне, а также придёт вам на почту. 
+                            После оплаты билет будет доступен в этом окне, а также придёт вам на почту.
                             Покажите QR-код нашему контролёру у входа в зал.
                         </div>
                     ) : (
                         <div>
-                            Покажите QR-код нашему контроллеру для подтверждения бронирования.
+                            Покажите QR-код нашему контролёру для подтверждения бронирования.
                         </div>
                     )}
                     <div>Приятного просмотра!</div>
