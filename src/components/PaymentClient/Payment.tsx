@@ -9,6 +9,10 @@ type Ticket = {
     row: number;
     place: number;
     coast: number;
+    ticket_date?: string;
+    ticket_time?: string;
+    ticket_datetime?: string;
+    datetime?: string;
 };
 
 export function Payment() {
@@ -24,19 +28,20 @@ export function Payment() {
         tickets = []
     } = location.state || {};
 
+    const firstTicket = (tickets as Ticket[])[0];
+
     const normalizeTicketDateTime = (dateValue?: string, timeValue?: string) => {
-        const rawDate = dateValue?.trim();
-        const rawTime = timeValue?.trim();
+        const rawDate = dateValue?.trim() || "";
+        const rawTime = timeValue?.trim() || "";
+        const combinedSource = [rawDate, rawTime].find((value) => /(\d{4}-\d{2}-\d{2})|(\d{2}\.\d{2}\.\d{4})/.test(value));
+        const timeSource = [rawTime, rawDate].find((value) => /\d{2}:\d{2}/.test(value));
 
-        const dateTimeSource = [rawDate, rawTime].find((value) => value && /(\d{4}-\d{2}-\d{2})|(\d{2}\.\d{2}\.\d{4})/.test(value));
-        const timeSource = [rawTime, rawDate].find((value) => value && /\d{2}:\d{2}/.test(value));
+        let normalizedDate = rawDate;
+        let normalizedTime = rawTime;
 
-        let normalizedDate = rawDate || "";
-        let normalizedTime = rawTime || "";
-
-        if (dateTimeSource) {
-            const isoDateMatch = dateTimeSource.match(/\d{4}-\d{2}-\d{2}/);
-            const ruDateMatch = dateTimeSource.match(/\d{2}\.\d{2}\.\d{4}/);
+        if (combinedSource) {
+            const isoDateMatch = combinedSource.match(/\d{4}-\d{2}-\d{2}/);
+            const ruDateMatch = combinedSource.match(/\d{2}\.\d{2}\.\d{4}/);
             normalizedDate = isoDateMatch?.[0] || ruDateMatch?.[0] || normalizedDate;
         }
 
@@ -53,7 +58,7 @@ export function Payment() {
 
     const formatTicketDate = (dateString?: string) => {
         if (!dateString) {
-            return new Date().toLocaleDateString("ru-RU");
+            return "Не указано";
         }
 
         if (/^\d{2}\.\d{2}\.\d{4}$/.test(dateString)) {
@@ -68,7 +73,17 @@ export function Payment() {
         return `${day}.${month}.${year}`;
     };
 
-    const normalizedDateTime = normalizeTicketDateTime(seanceDate, seanceTime);
+    const normalizedDateTime = normalizeTicketDateTime(
+        (seanceDate as string | undefined)
+            || firstTicket?.ticket_date
+            || firstTicket?.ticket_datetime
+            || firstTicket?.datetime,
+        (seanceTime as string | undefined)
+            || firstTicket?.ticket_time
+            || firstTicket?.ticket_datetime
+            || firstTicket?.datetime
+    );
+
     const ticketDate = formatTicketDate(normalizedDateTime.date);
     const ticketTime = normalizedDateTime.time || "Не указано";
     const ticketRows = (tickets as Ticket[]).map((ticket) => ticket.row).join(", ");
@@ -109,7 +124,10 @@ export function Payment() {
                         В зале:&nbsp;<span>{hallName}</span>
                     </div>
                     <div className={styles.property}>
-                        Начало сеанса:&nbsp;<span>{ticketTime}</span>
+                        Дата сеанса:&nbsp;<span>{ticketDate}</span>
+                    </div>
+                    <div className={styles.property}>
+                        Время сеанса:&nbsp;<span>{ticketTime}</span>
                     </div>
                     {!showQR && (
                         <div className={styles.property}>

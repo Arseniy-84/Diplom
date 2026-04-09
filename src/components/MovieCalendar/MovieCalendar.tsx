@@ -22,14 +22,18 @@ export function MovieCalendar() {
         return eachDayOfInterval({
             start: today,
             end: twoWeeksLater
-        }).map((date) => ({
-            date,
-            id: format(date, "yyyy-MM-dd"),
-            shortLabel: format(date, "dd"),
-            shortWeekDay: format(date, "EEEEEE", { locale: ru }).toLowerCase(),
-            isToday: isToday(date),
-            isWeekend: ["сб", "вс"].includes(format(date, "EEEEEE", { locale: ru }).toLowerCase())
-        }));
+        }).map((date) => {
+            const shortWeekDay = format(date, "EEEEEE", { locale: ru }).toLowerCase();
+
+            return {
+                date,
+                id: format(date, "yyyy-MM-dd"),
+                shortLabel: format(date, "dd"),
+                shortWeekDay,
+                isToday: isToday(date),
+                isWeekend: ["сб", "вс"].includes(shortWeekDay)
+            };
+        });
     };
 
     const dates = getSeanceDate();
@@ -103,23 +107,7 @@ export function MovieCalendar() {
                         const isActive = activeSeance === date.id || (!activeSeance && dates[0]?.id === date.id);
                         const isWeekendClass = date.isWeekend ? styles.weekend : "";
                         const isActiveClass = isActive ? styles["date-active"] : "";
-
-                        if (date.isToday) {
-                            return (
-                                <div key={date.id} className={styles.slide}>
-                                    <NavLink
-                                        to={`?seance=${date.id}`}
-                                        className={`${styles.date} ${isActiveClass} ${isWeekendClass}`}
-                                        onClick={() => dateActiveClick(date)}
-                                    >
-                                        <div className={styles["date-content"]}>
-                                            <span className={styles.todayLabel}>Сегодня</span>
-                                            <span>{date.shortWeekDay}, {date.shortLabel}</span>
-                                        </div>
-                                    </NavLink>
-                                </div>
-                            );
-                        }
+                        const dayAndDate = `${date.shortWeekDay}, ${date.shortLabel}`;
 
                         return (
                             <div key={date.id} className={styles.slide}>
@@ -129,8 +117,8 @@ export function MovieCalendar() {
                                     onClick={() => dateActiveClick(date)}
                                 >
                                     <div className={styles["date-content"]}>
-                                        <span className={styles.dayName}>{date.shortWeekDay}</span>
-                                        <span>, {date.shortLabel}</span>
+                                        {date.isToday && <span className={styles.todayLabel}>Сегодня</span>}
+                                        <span className={styles.dayDate}>{dayAndDate}</span>
                                     </div>
                                 </NavLink>
                             </div>
