@@ -24,9 +24,40 @@ export function Payment() {
         tickets = []
     } = location.state || {};
 
+    const normalizeTicketDateTime = (dateValue?: string, timeValue?: string) => {
+        const rawDate = dateValue?.trim();
+        const rawTime = timeValue?.trim();
+
+        const dateTimeSource = [rawDate, rawTime].find((value) => value && /(\d{4}-\d{2}-\d{2})|(\d{2}\.\d{2}\.\d{4})/.test(value));
+        const timeSource = [rawTime, rawDate].find((value) => value && /\d{2}:\d{2}/.test(value));
+
+        let normalizedDate = rawDate || "";
+        let normalizedTime = rawTime || "";
+
+        if (dateTimeSource) {
+            const isoDateMatch = dateTimeSource.match(/\d{4}-\d{2}-\d{2}/);
+            const ruDateMatch = dateTimeSource.match(/\d{2}\.\d{2}\.\d{4}/);
+            normalizedDate = isoDateMatch?.[0] || ruDateMatch?.[0] || normalizedDate;
+        }
+
+        if (timeSource) {
+            const timeMatch = timeSource.match(/\d{2}:\d{2}/);
+            normalizedTime = timeMatch?.[0] || normalizedTime;
+        }
+
+        return {
+            date: normalizedDate,
+            time: normalizedTime
+        };
+    };
+
     const formatTicketDate = (dateString?: string) => {
         if (!dateString) {
             return new Date().toLocaleDateString("ru-RU");
+        }
+
+        if (/^\d{2}\.\d{2}\.\d{4}$/.test(dateString)) {
+            return dateString;
         }
 
         const [year, month, day] = dateString.split("-");
@@ -37,14 +68,17 @@ export function Payment() {
         return `${day}.${month}.${year}`;
     };
 
+    const normalizedDateTime = normalizeTicketDateTime(seanceDate, seanceTime);
+    const ticketDate = formatTicketDate(normalizedDateTime.date);
+    const ticketTime = normalizedDateTime.time || "Не указано";
     const ticketRows = (tickets as Ticket[]).map((ticket) => ticket.row).join(", ");
     const ticketPlaces = (tickets as Ticket[]).map((ticket) => ticket.place).join(", ");
 
     const qrValue = [
         "БИЛЕТ В КИНО",
         `Фильм: ${filmName || "Не указан"}`,
-        `Дата: ${formatTicketDate(seanceDate)}`,
-        `Время: ${seanceTime || "Не указано"}`,
+        `Дата: ${ticketDate}`,
+        `Время: ${ticketTime}`,
         `Зал: ${hallName || "Не указан"}`,
         `Ряд: ${ticketRows || "Не указан"}`,
         `Место: ${ticketPlaces || "Не указано"}`,
@@ -75,7 +109,7 @@ export function Payment() {
                         В зале:&nbsp;<span>{hallName}</span>
                     </div>
                     <div className={styles.property}>
-                        Начало сеанса:&nbsp;<span>{seanceTime}</span>
+                        Начало сеанса:&nbsp;<span>{ticketTime}</span>
                     </div>
                     {!showQR && (
                         <div className={styles.property}>
