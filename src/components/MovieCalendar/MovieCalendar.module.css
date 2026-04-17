@@ -1,151 +1,115 @@
 .container {
-    padding: 0 40px;
-    position: relative;
     max-width: 990px;
     width: 100%;
 }
 
-.slide {
-    padding: 0;
+.calendar {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    gap: 2px;
+}
+
+.date,
+.calendar-arrow {
+    height: 48px;
+    min-height: 48px;
+    border: 1px solid rgba(0, 0, 0, 0.16);
+    background: rgba(255, 255, 255, 0.9);
+    box-sizing: border-box;
 }
 
 .date {
-    display: block;
+    flex: 1 1 0;
+    display: flex;
+    align-items: center;
     text-decoration: none;
-    width: 90px;
-    height: 48px;
-    padding: 8px 14px;
-    border-radius: 2px;
-    background: #FFFFFFE5;
-    box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.12);
-    text-align: left;
-    font-weight: var(--font-normal);
-    font-size: 12px;
-    line-height: 14px;
+    padding: 6px 18px;
     color: var(--black);
 }
 
-.date:hover {
-    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.24);
-}
-
 .date-active {
-    width: 128px;
-    height: 52px;
-    padding: 10px 14px;
-    background: var(--white);
-    margin-top: -2px;
-    font-weight: var(--font-bold);
+    flex: 2 1 0;
+    height: 54px;
+    min-height: 54px;
+    background: rgba(255, 255, 255, 0.96);
+    margin: -3px 0;
 }
 
 .weekend {
     color: #FF0000;
 }
 
-.button {
-    border: none;
+.calendar-arrow {
+    flex: 1 1 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
     cursor: pointer;
 }
 
-.slick-prev,
-.slick-next {
-    width: 24px;
-    height: 48px;
-    background: rgba(255, 255, 255, 0.85);
-    border-radius: 2px;
-    box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.12);
-    z-index: 10;
+.calendar-arrow-icon {
+    width: 9px;
+    height: 9px;
+    border-top: 3px solid #111;
+    border-right: 3px solid #111;
+    display: block;
 }
 
-.slick-prev {
-    left: -28px;
+.calendar-arrow-prev .calendar-arrow-icon {
+    transform: rotate(-135deg);
 }
 
-.slick-next {
-    right: -28px;
-}
-
-.slick-prev::before,
-.slick-next::before {
-    font-size: 0;
-    opacity: 1;
-}
-
-.slick-prev::after,
-.slick-next::after {
-    content: "";
-    position: absolute;
-    top: 50%;
-    width: 8px;
-    height: 8px;
-    border-top: 2px solid #222;
-    border-right: 2px solid #222;
-}
-
-.slick-prev::after {
-    left: 10px;
-    transform: translateY(-50%) rotate(-135deg);
-}
-
-.slick-next::after {
-    right: 10px;
-    transform: translateY(-50%) rotate(45deg);
+.calendar-arrow-next .calendar-arrow-icon {
+    transform: rotate(45deg);
 }
 
 .date-content {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    justify-content: center;
     gap: 0;
     text-align: left;
 }
 
 .todayLabel,
+.todayDate,
+.weekDay,
 .dayDate {
     display: block;
+    font-family: Roboto, sans-serif;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 14px;
+    letter-spacing: 0;
 }
 
-@media (max-width: 1024px) {
-    .container {
-        max-width: 100%;
-        padding: 0 28px;
-    }
+.date-active .todayLabel,
+.date-active .todayDate,
+.date-active .weekDay,
+.date-active .dayDate {
+    font-weight: 700;
+    font-size: 15px;
+    line-height: 14px;
 }
 
 @media (max-width: 768px) {
-    .container {
-        padding: 0 22px;
-    }
-
     .date {
-        width: 74px;
-        padding: 8px 10px;
-    }
-
-    .date-active {
-        width: 108px;
+        padding: 6px 12px;
     }
 }
 
-@media (max-width: 390px) {
-    .container {
-        padding: 0 18px;
-    }
-
+@media (max-width: 590px) {
     .date {
-        width: 64px;
-        padding: 8px;
+        padding: 6px 8px;
     }
 
-    .date-active {
-        width: 82px;
-    }
-
-    .slick-prev {
-        left: -18px;
-    }
-
-    .slick-next {
-        right: -18px;
+    .calendar-arrow-icon {
+        width: 8px;
+        height: 8px;
+        border-top-width: 2px;
+        border-right-width: 2px;
     }
 }
