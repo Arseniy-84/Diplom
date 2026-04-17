@@ -87,13 +87,17 @@
 }
 
 .button {
-    align-self: flex-start;
+    align-self: center;
     margin-top: 6px;
+    display: flex;
+    justify-content: center;
 }
 
 .qrCode {
     background: #fff;
     padding: 16px;
+    display: flex;
+    justify-content: center;
 }
 
 .instructions {
@@ -129,10 +133,6 @@
 @media (max-width: 390px) {
     .page {
         padding-bottom: 72px;
-    }
-
-    .button {
-        align-self: center;
     }
 
     .header {
