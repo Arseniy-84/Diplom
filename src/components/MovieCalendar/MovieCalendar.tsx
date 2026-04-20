@@ -130,7 +130,7 @@ export function MovieCalendar() {
             const nextStart = Math.max(0, activeDateIndex - nextVisibleDateCount + 1);
             setWindowStart(nextStart);
         }
-    }, [activeDateIndex, viewportWidth, windowStart]);
+    }, [activeDateIndex, viewportWidth]);
 
     const dateActiveClick = (date: DateItem) => {
         setNavigationData((prev) => ({
