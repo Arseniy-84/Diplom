@@ -77,10 +77,7 @@ export function MovieCalendar() {
 
     const getVisibleDateCount = (startIndex: number) => {
         const baseVisibleDateCount = getBaseVisibleDateCount(viewportWidth);
-        const reducedVisibleDateCount = Math.max(1, baseVisibleDateCount - 1);
-        const hasPrev = startIndex > 0;
-
-        let visibleDateCount = hasPrev ? reducedVisibleDateCount : baseVisibleDateCount;
+        let visibleDateCount = baseVisibleDateCount;
         const hasNext = startIndex + visibleDateCount < dates.length;
 
         if (!hasNext) {
