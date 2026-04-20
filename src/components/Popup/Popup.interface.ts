@@ -14,7 +14,8 @@ export interface PopupForm {
 export interface PopupProps {
     onClose?: () => void;
     onSuccess?: () => void;
-    onSuccessAddLocal?:(seanceData: { hallId: number; filmId: number; time: string }) => void;
+    onSuccessAddLocal?: (seanceData: { hallId: number; filmId: number; time: string }) => void;
+    onValidateSeance?: (seanceData: { hallId: number; filmId: number; time: string }) => string | null;
     film?: Film;
     hall?: Hall;
     seance?: Seance;

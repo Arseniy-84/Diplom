@@ -24,6 +24,8 @@ export function Payment() {
         seanceTime,
         seanceDate,
         totalCoast,
+        ticketRows: stateTicketRows,
+        ticketPlaces: stateTicketPlaces,
         selectedSeatsInfo,
         tickets = []
     } = location.state || {};
@@ -86,8 +88,17 @@ export function Payment() {
 
     const ticketDate = formatTicketDate(normalizedDateTime.date);
     const ticketTime = normalizedDateTime.time || "Не указано";
-    const ticketRows = (tickets as Ticket[]).map((ticket) => ticket.row).join(", ");
-    const ticketPlaces = (tickets as Ticket[]).map((ticket) => ticket.place).join(", ");
+    const ticketRows = stateTicketRows || (tickets as Ticket[]).map((ticket) => ticket.row).join(", ");
+    const ticketPlaces = stateTicketPlaces || (tickets as Ticket[]).map((ticket) => ticket.place).join(", ");
+    const rowList = ticketRows ? ticketRows.split(", ") : [];
+    const placeList = ticketPlaces ? ticketPlaces.split(", ") : [];
+    const seatSummary = selectedSeatsInfo || (
+        ticketRows && ticketPlaces
+            ? rowList
+                .map((row: string, index: number) => `Ряд ${row} - место ${placeList[index]}`)
+                .join(", ")
+            : "Не указано"
+    );
 
     const qrValue = [
         "БИЛЕТ В КИНО",
@@ -118,7 +129,7 @@ export function Payment() {
                         На фильм:&nbsp;<span>{filmName}</span>
                     </div>
                     <div className={styles.property}>
-                        Места:&nbsp;<span>{selectedSeatsInfo}</span>
+                        Места:&nbsp;<span>{seatSummary}</span>
                     </div>
                     <div className={styles.property}>
                         В зале:&nbsp;<span>{hallName}</span>

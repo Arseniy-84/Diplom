@@ -16,6 +16,9 @@
 
 .halls {
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .hall-name {
@@ -27,6 +30,10 @@
 }
 
 @media (max-width: 768px) {
+    .halls {
+        align-items: stretch;
+    }
+
     .timeline {
         height: 54px;
         max-width: 100%;
@@ -40,6 +47,7 @@
 @media (max-width: 390px) {
     .timeline {
         height: 48px;
+        max-width: 100%;
     }
 
     .hall-name {

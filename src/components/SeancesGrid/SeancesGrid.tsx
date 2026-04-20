@@ -22,9 +22,9 @@ export function SeancesGrid() {
     const [showFilmPopup, setShowFilmPopup] = useState(false);
     const [showSeancePopup, setShowSeancePopup] = useState(false);
     const [showDeleteSeancePopup, setShowDeleteSeancePopup] = useState(false);
-    const [selectedFilm, setSelectedFilm] = useState<any>(null);
-    const [selectedHall, setSelectedHall] = useState<any>(null);
-    const [selectedSeance, setSelectedSeance] = useState<any>(null);
+    const [selectedFilm, setSelectedFilm] = useState<Film | null>(null);
+    const [selectedHall, setSelectedHall] = useState<Hall | null>(null);
+    const [selectedSeance, setSelectedSeance] = useState<Seance | null>(null);
     const [localSeances, setLocalSeances] = useState<Seance[]>([]);
     const [isSaving, setIsSaving] = useState(false);
     const [error, setError] = useState<string | null>(null);
@@ -34,94 +34,131 @@ export function SeancesGrid() {
 
     const allSeances = [...seances, ...localSeances];
 
+    const timeToMinutes = (time: string) => {
+        const [hours, minutes] = time.split(':').map(Number);
+        return hours * 60 + minutes;
+    };
+
+    const getFilmDuration = (filmId: number) => {
+        const film = films.find((item) => item.id === filmId);
+        return film?.film_duration ?? null;
+    };
+
     const cancel = () => {
         setLocalSeances([]);
         setError(null);
-    }
+    };
 
     const handleSave = async () => {
-    
-    if (isSaving) {
-        return;
-    }
-    
-    if (localSeances.length === 0) {
-        setError('Нет сеансов для сохранения');
-        return;
-    }
-    
-    setIsSaving(true);
-    
-    try {
-        await Promise.all(
-            localSeances.map(seance => 
-                dispatch(addSeance({
-                    seanceHallid: seance.seance_hallid,
-                    seanceFilmid: seance.seance_filmid,
-                    seanceTime: seance.seance_time
-                })).unwrap()
-            )
-        );
+        if (isSaving) {
+            return;
+        }
 
-        setLocalSeances([]);
-        await refreshData();
-    } catch (error) {
-        console.error('Сетевая ошибка при сохранении сеансов:', error);
-    } finally {
-        setIsSaving(false);
-    }
-};
+        if (localSeances.length === 0) {
+            setError('Нет сеансов для сохранения');
+            return;
+        }
+
+        setIsSaving(true);
+
+        try {
+            await Promise.all(
+                localSeances.map((seance) =>
+                    dispatch(addSeance({
+                        seanceHallid: seance.seance_hallid,
+                        seanceFilmid: seance.seance_filmid,
+                        seanceTime: seance.seance_time
+                    })).unwrap()
+                )
+            );
+
+            setLocalSeances([]);
+            await refreshData();
+        } catch (saveError) {
+            console.error('Сетевая ошибка при сохранении сеансов:', saveError);
+        } finally {
+            setIsSaving(false);
+        }
+    };
 
     const handleAddFilm = () => {
         setShowFilmPopup(true);
-    }
+    };
 
     const handleCloseFilmPopup = () => {
-        setShowSeancePopup(false)
+        setShowSeancePopup(false);
         setShowFilmPopup(false);
-    }
+    };
 
     const handleSuccessCreate = () => {
         setShowFilmPopup(false);
         dispatch(fetchAllData());
-    }
+    };
 
-    const handleSeanceDelete =  (seanceId: Seance, film: Film) => {
+    const handleSeanceDelete = (seanceId: Seance, film: Film) => {
         setSelectedSeance(seanceId);
         setSelectedFilm(film);
         setShowDeleteSeancePopup(true);
-    }
+    };
 
     const handleCloseDeletePopup = () => {
         setShowDeleteSeancePopup(false);
         setSelectedSeance(null);
-        setSelectedFilm('');
+        setSelectedFilm(null);
     };
 
     const delFilm = async (id: number) => {
         try {
             await dispatch(deleteFilm(id)).unwrap();
-        } catch (err) {
-            console.error('Error delete film:', err);
+        } catch (deleteError) {
+            console.error('Error delete film:', deleteError);
         }
-    }
+    };
 
     const handleFilmDropped = (film: Film, hall: Hall) => {
         setSelectedHall(hall);
         setSelectedFilm(film);
-        setShowSeancePopup(true);        
+        setShowSeancePopup(true);
+    };
+
+    const validateSeance = ({ hallId, filmId, time }: { hallId: number; filmId: number; time: string }) => {
+        const duration = getFilmDuration(filmId);
+
+        if (!duration || duration <= 0) {
+            return 'Не удалось определить продолжительность фильма для проверки пересечений';
+        }
+
+        const newStart = timeToMinutes(time);
+        const newEnd = newStart + duration;
+
+        const hasOverlap = allSeances
+            .filter((seance) => seance.seance_hallid === hallId)
+            .some((seance) => {
+                const existingDuration = getFilmDuration(seance.seance_filmid);
+
+                if (!existingDuration || existingDuration <= 0) {
+                    return false;
+                }
+
+                const existingStart = timeToMinutes(seance.seance_time);
+                const existingEnd = existingStart + existingDuration;
+
+                return newStart < existingEnd && existingStart < newEnd;
+            });
+
+        return hasOverlap ? 'Сеанс пересекается по времени с другим сеансом в этом зале' : null;
     };
 
     const handleSeanceAdd = (seanceData: { hallId: number; filmId: number; time: string }) => {
-
         const newSeance: Seance = {
             id: Date.now(),
             seance_hallid: seanceData.hallId,
             seance_filmid: seanceData.filmId,
             seance_time: seanceData.time,
         };
-        
-        setLocalSeances(prev => [...prev, newSeance]);
+
+        setLocalSeances((prev) => [...prev, newSeance]);
+        setError(null);
         setShowSeancePopup(false);
         setSelectedFilm(null);
         setSelectedHall(null);
@@ -144,11 +181,10 @@ export function SeancesGrid() {
                             onDelete={delFilm}
                         />
                     ))}
-                </div>                    
+                </div>
                 <div className={styles['seances-grid']}>
-                    {halls.map(hall => (
-                        
-                        <HallWithBasket 
+                    {halls.map((hall) => (
+                        <HallWithBasket
                             key={hall.id}
                             hall={hall}
                             films={films}
@@ -157,8 +193,7 @@ export function SeancesGrid() {
                             seances={allSeances}
                             onSeanceDelete={handleSeanceDelete}
                         />
-                        
-                    ))}               
+                    ))}
                 </div>
                 {isSaving ? <div>Выполняется сохранение сеансов...</div> : error ? <div className={styles.error}>{error}</div> : ''}
                 <div className={styles.buttons}>
@@ -168,9 +203,9 @@ export function SeancesGrid() {
                 {showFilmPopup && (
                     <div className={styles.popupOverlay}>
                         <div className={styles.popupContent}>
-                            <PopupAddFilm 
+                            <PopupAddFilm
                                 onClose={handleCloseFilmPopup}
-                                onSuccess={handleSuccessCreate}      
+                                onSuccess={handleSuccessCreate}
                             />
                         </div>
                     </div>
@@ -178,11 +213,12 @@ export function SeancesGrid() {
                 {showSeancePopup && (
                     <div className={styles.popupOverlay}>
                         <div className={styles.popupContent}>
-                            <PopupAddSeance 
+                            <PopupAddSeance
                                 onClose={handleCloseFilmPopup}
                                 onSuccessAddLocal={handleSeanceAdd}
-                                hall={selectedHall}
-                                film={selectedFilm}                                
+                                onValidateSeance={validateSeance}
+                                hall={selectedHall ?? undefined}
+                                film={selectedFilm ?? undefined}
                             />
                         </div>
                     </div>
@@ -190,11 +226,11 @@ export function SeancesGrid() {
                 {showDeleteSeancePopup && (
                     <div className={styles.popupOverlay}>
                         <div className={styles.popupContent}>
-                            <PopupDeleteSeance 
+                            <PopupDeleteSeance
                                 onClose={handleCloseDeletePopup}
                                 onSuccess={handleSuccessCreate}
-                                seance={selectedSeance}
-                                film={selectedFilm}                                
+                                seance={selectedSeance ?? undefined}
+                                film={selectedFilm ?? undefined}
                             />
                         </div>
                     </div>

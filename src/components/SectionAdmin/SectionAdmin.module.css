@@ -72,8 +72,16 @@
 }
 
 @media (min-width: 391px) and (max-width: 767px) { 
+    .head {
+        padding: 26px 24px 26px 86px;
+    }
+
+    .icon {
+        left: 24px;
+    }
+
     .content {
-        padding: 35px 0 35px 80px;
+        padding: 35px 24px 35px 80px;
     }
 }
 
@@ -82,7 +90,27 @@
         display: none;
     }
 
+    .head {
+        padding: 18px 16px 18px 56px;
+    }
+
+    .title {
+        font-size: 16px;
+        line-height: 18px;
+    }
+
+    .icon {
+        width: 30px;
+        height: 30px;
+        left: 12px;
+    }
+
+    .check-mark {
+        width: 20px;
+        height: 14px;
+    }
+
     .content {
-        padding: 35px 0 35px 30px;
+        padding: 24px 16px 24px 16px;
     }
 }

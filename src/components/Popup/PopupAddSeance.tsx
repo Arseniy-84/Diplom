@@ -7,8 +7,8 @@ import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "../../store/store";
 import { assetPath } from "../../helpers/assetPath";
 
-export function PopupAddSeance({ onClose, onSuccessAddLocal, film, hall }: PopupProps) {
-    const [error, setError] = useState<string | null>();
+export function PopupAddSeance({ onClose, onSuccessAddLocal, onValidateSeance, film, hall }: PopupProps) {
+    const [error, setError] = useState<string | null>(null);
     const [selectedHallId, setSelectedHallId] = useState<string>(hall?.id?.toString() || "");
     const [selectedFilmId, setSelectedFilmId] = useState<string>(film?.id?.toString() || "");
     const [selectedTime, setSelectedTime] = useState<string>("");
@@ -28,8 +28,8 @@ export function PopupAddSeance({ onClose, onSuccessAddLocal, film, hall }: Popup
             return;
         }
 
-        const hallId = parseInt(selectedHallId);
-        const filmId = parseInt(selectedFilmId);
+        const hallId = parseInt(selectedHallId, 10);
+        const filmId = parseInt(selectedFilmId, 10);
 
         if (isNaN(hallId) || isNaN(filmId)) {
             setError("Некорректные ID зала или фильма");
@@ -38,6 +38,17 @@ export function PopupAddSeance({ onClose, onSuccessAddLocal, film, hall }: Popup
 
         if (!/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/.test(selectedTime)) {
             setError("Некорректный формат времени. Используйте HH:MM");
+            return;
+        }
+
+        const validationError = onValidateSeance?.({
+            hallId,
+            filmId,
+            time: selectedTime
+        });
+
+        if (validationError) {
+            setError(validationError);
             return;
         }
 

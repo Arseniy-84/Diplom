@@ -35,8 +35,9 @@
 }
 
 .createHallButton {
-    display: block;
-    margin: 0 auto;
+    display: inline-flex;
+    align-self: flex-start;
+    margin: 0;
 }
 
 .popupOverlay {
@@ -59,6 +60,16 @@
     max-height: 90vh;
     margin: auto;
     animation: slideDown 0.3s ease-in-out;
+}
+
+@media (max-width: 768px) {
+    .popupOverlay {
+        padding: 0;
+    }
+
+    .popupContent {
+        max-height: 100vh;
+    }
 }
 
 @keyframes slideDown {

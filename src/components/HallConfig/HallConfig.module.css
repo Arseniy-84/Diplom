@@ -75,8 +75,11 @@
 }
 
 .icon {
+    display: block;
     width: 10px;
     height: 21px;
+    align-self: flex-end;
+    margin-bottom: 8px;
 }
 
 .chairs {
@@ -161,6 +164,15 @@
 
 
 @media (min-width: 391px) and (max-width: 767px) { 
+    .chairs {
+        align-items: center;
+        gap: 14px 18px;
+    }
+
+    .chair {
+        white-space: nowrap;
+    }
+
     .buttons {
         flex-wrap: wrap;
         gap: 7px;

@@ -12,7 +12,7 @@ import { assetPath } from '../../helpers/assetPath';
 export function HallConfig() {
     const [error, setError] = useState<string | null>(null);
     const [configArray, setConfigArray] = useState<SeatType[][]>([]);
-    const [formValue, setFormValue] = useState(() => ({rows: 0, places: 0}));
+    const [formValue, setFormValue] = useState(() => ({ rows: 0, places: 0 }));
     const [selectHall, setSelectHall] = useState<number>(0);
     const [isManualInput, setIsManualInput] = useState(false);
 
@@ -20,19 +20,19 @@ export function HallConfig() {
     const { halls, loading: hallsLoading, error: hallsError } = useAppData();
 
     useEffect(() => {
-        if (selectHall){
+        if (selectHall) {
             setError(null);
-            loadHallConfig(selectHall);   
+            loadHallConfig(selectHall);
         }
     }, [selectHall]);
 
     useEffect(() => {
-    if (isManualInput && formValue.rows > 0 && formValue.places > 0) {
-        setError(null);
-        generateHallConfig();
-        setIsManualInput(false);
-    }
-    }, [formValue.rows, formValue.places, isManualInput, error]);
+        if (isManualInput && formValue.rows > 0 && formValue.places > 0) {
+            setError(null);
+            generateHallConfig();
+            setIsManualInput(false);
+        }
+    }, [formValue.rows, formValue.places, isManualInput]);
 
     useEffect(() => {
         if (halls?.length > 0 && !selectHall) {
@@ -41,44 +41,39 @@ export function HallConfig() {
     }, [halls, selectHall]);
 
     const loadHallConfig = (hallId: number) => {
-        const selectedHall = halls.find(hall => hall.id === hallId);
+        const selectedHall = halls.find((hall) => hall.id === hallId);
 
-        if (selectedHall && selectedHall.hall_config) {           
-            setConfigArray(selectedHall?.hall_config)
+        if (selectedHall && Array.isArray(selectedHall.hall_config) && selectedHall.hall_config.length > 0) {
+            setConfigArray(selectedHall.hall_config);
 
-            if (Array.isArray(selectedHall?.hall_config) && selectedHall?.hall_config.length > 0) {
-                setConfigArray(selectedHall?.hall_config);
+            const rows = selectedHall.hall_config.length;
+            const places = selectedHall.hall_config[0]?.length || 0;
 
-                const rows = selectedHall?.hall_config.length;
-                const places = selectedHall?.hall_config[0]?.length || 0;
-
-                setFormValue({
-                    rows: rows,
-                    places: places
-                });
-                setIsManualInput(false);
-                return;
-            }
+            setFormValue({
+                rows,
+                places
+            });
+            setIsManualInput(false);
         }
-    }
+    };
 
     const handleChangeForm = (e: ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
-        const numValue = parseInt(value) || 0;
+        const numValue = parseInt(value, 10) || 0;
 
-        setFormValue(prev => ({
+        setFormValue((prev) => ({
             ...prev,
             [name]: numValue
         }));
         setIsManualInput(true);
-    }
+    };
 
     const handleHallClick = (hallId: number) => {
-            setSelectHall(hallId);
-    }
+        setSelectHall(hallId);
+    };
 
     const generateHallConfig = () => {
-        const { rows, places} = formValue;
+        const { rows, places } = formValue;
 
         if (rows <= 0 || places <= 0) {
             setError('Укажите корректное количество рядов и мест');
@@ -90,13 +85,11 @@ export function HallConfig() {
             return;
         }
 
-        if (rows > 0 && places > 0) {
-            const newConfig: SeatType[][] = Array.from({ length: rows }, () =>
-                Array.from({ length: places }, () => 'standart')
-            );
-            setConfigArray(newConfig);
-        }
-    }
+        const newConfig: SeatType[][] = Array.from({ length: rows }, () =>
+            Array.from({ length: places }, () => 'standart')
+        );
+        setConfigArray(newConfig);
+    };
 
     const submit = async (e: FormEvent) => {
         e.preventDefault();
@@ -138,21 +131,18 @@ export function HallConfig() {
         }
     };
 
-    const handleSeatClick = (rowIndex: number, seatIndex: number ) => {
-        const newConfig = configArray.map((row, rIndex) => 
-        rIndex === rowIndex 
-            ? [...row]
-            : row
-    );
-        
+    const handleSeatClick = (rowIndex: number, seatIndex: number) => {
+        const newConfig = configArray.map((row, rIndex) =>
+            rIndex === rowIndex ? [...row] : row
+        );
+
         const currentType = newConfig[rowIndex][seatIndex];
         const types: SeatType[] = ['standart', 'vip', 'disabled'];
         const currentIndex = types.indexOf(currentType);
         const nextIndex = (currentIndex + 1) % types.length;
-        
+
         newConfig[rowIndex][seatIndex] = types[nextIndex];
         setConfigArray(newConfig);
-        
     };
 
     const getSeatIcon = (seatType: SeatType) => {
@@ -164,11 +154,11 @@ export function HallConfig() {
             case 'disabled':
                 return assetPath('Admin/disabled-chair-icon.svg');
         }
-    }
+    };
 
     const cancel = (hallId: number) => {
         loadHallConfig(hallId);
-    }
+    };
 
     return (
         <form className={styles.form} onSubmit={submit}>
@@ -195,7 +185,7 @@ export function HallConfig() {
                             </div>
                         ))}
                     </div>
-                )}    
+                )}
             </div>
             <div className={styles.header}>
                 Укажите количество рядов и максимальное количество кресел в ряду:
@@ -231,7 +221,7 @@ export function HallConfig() {
                 <div className={styles.comment}>Чтобы изменить вид кресла, нажмите по нему левой кнопкой мыши</div>
                 {!hallsLoading ? (
                     <div className={styles['container-hall']}>
-                        <div className={styles.screen}>экран</div>
+                        <div className={styles.screen}>Экран</div>
                         {error ? (
                             <div className={styles.error}>{error}</div>
                         ) : (
@@ -259,9 +249,9 @@ export function HallConfig() {
                 )}
             </div>
             <div className={styles.buttons}>
-                <Button appereance="cancel" onClick={() => cancel(selectHall)}>Отменить</Button>
+                <Button type="button" appereance="cancel" onClick={() => cancel(selectHall)}>Отменить</Button>
                 <Button appereance="admin" type="submit">Сохранить</Button>
             </div>
         </form>
     );
-} 
+}

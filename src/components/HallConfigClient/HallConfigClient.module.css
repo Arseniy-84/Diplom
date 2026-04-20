@@ -11,6 +11,7 @@
     flex-direction: column;
     gap: 8px;
     padding: 15px;
+    position: relative;
 }
 
 .film-name {
@@ -50,31 +51,10 @@
 }
 
 .tapHintIcon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    margin-bottom: 8px;
-}
-
-.tapHintIcon span {
-    width: 16px;
-    height: 24px;
-    border-radius: 10px;
-    border: 2px solid rgba(255, 255, 255, 0.85);
-    display: inline-block;
-    position: relative;
-}
-
-.tapHintIcon span::before {
-    content: '';
-    position: absolute;
-    top: 3px;
-    left: 50%;
-    width: 2px;
-    height: 8px;
-    background: rgba(255, 255, 255, 0.85);
-    transform: translateX(-50%);
+    width: 30px;
+    height: 40px;
+    flex-shrink: 0;
+    object-fit: contain;
 }
 
 .hall-config {
@@ -152,28 +132,39 @@
     .container {
         max-width: 100%;
     }
-}
+    
+    .seance {
+        padding: 15px 148px 15px 15px;
+    }
 
-@media (max-width: 768px) {
     .chairs {
         width: 100%;
         padding: 24px 16px 0;
     }
 
     .tapHint {
-        display: block;
-        max-width: 320px;
-        margin: 0 auto 18px;
-        text-align: center;
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        position: absolute;
+        top: 15px;
+        right: 16px;
         font-size: 13px;
         line-height: 15px;
-        color: rgba(255, 255, 255, 0.85);
+        color: #000;
+    }
+
+    .tapHint p {
+        max-width: 116px;
+        margin: 0;
+        text-align: left;
+        white-space: normal;
     }
 }
 
 @media (max-width: 390px) {
     .seance {
-        padding: 12px;
+        padding: 12px 146px 16px 12px;
     }
 
     .film-name,
@@ -198,8 +189,23 @@
     }
 
     .tapHint {
-        max-width: 260px;
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        align-self: auto;
+        display: flex;
+        gap: 10px;
+        margin-top: 0;
         font-size: 12px;
         line-height: 14px;
+        width: 138px;
+        min-width: 138px;
+    }
+
+    .tapHint p {
+        width: 98px;
+        min-width: 98px;
+        max-width: 98px;
+        flex: 0 0 98px;
     }
 }

@@ -32,10 +32,9 @@
 
 .time {
     position: absolute;
-    left: 50%;
+    left: 0;
     bottom: -25px;
     color: var(--text-secondary);
-    transform: translateX(-50%);
     font-size: 10px;
 }
 
@@ -43,9 +42,8 @@
     content: '';
     position: absolute;
     top: -5px;
-    left: 50%;
+    left: 0;
     width: 1px;
     height: 6px;
     background-color: var(--text-secondary);
-    transform: translateX(-50%);
 }
