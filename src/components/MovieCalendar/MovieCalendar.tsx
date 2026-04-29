@@ -31,11 +31,11 @@ function capitalizeFirstLetter(value: string) {
 
 function getBaseVisibleDateCount(viewportWidth: number) {
     if (viewportWidth <= 590) {
-        return 3;
+        return 4;
     }
 
     if (viewportWidth <= 768) {
-        return 4;
+        return 5;
     }
 
     return 6;

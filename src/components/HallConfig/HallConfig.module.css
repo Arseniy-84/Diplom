@@ -180,7 +180,79 @@
 }
 
 @media (max-width: 390px) {
+    .form {
+        gap: 28px;
+    }
+
+    .header {
+        gap: 10px;
+        font-size: 14px;
+        line-height: 16px;
+        padding-right: 0;
+    }
+
     .halls {
         flex-wrap: wrap;
+        gap: 6px;
+    }
+
+    .hall {
+        font-size: 12px;
+        line-height: 14px;
+        padding: 10px 14px;
+    }
+
+    .hall_active {
+        font-size: 13px;
+        padding: 11px 16px;
+    }
+
+    .inputs {
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+
+    .chairs {
+        gap: 12px;
+    }
+
+    .chair div,
+    .comment {
+        font-size: 12px;
+        line-height: 14px;
+    }
+
+    .container-hall {
+        width: 100%;
+        padding: 20px 8px 28px;
+        overflow-x: auto;
+        align-items: flex-start;
+    }
+
+    .screen {
+        align-self: center;
+        font-size: 14px;
+        line-height: 16px;
+        letter-spacing: 12px;
+    }
+
+    .schemeHall {
+        width: max-content;
+        min-width: 100%;
+        gap: 8px;
+    }
+
+    .seats {
+        gap: 6px;
+    }
+
+    .seat {
+        width: 16px;
+        height: 16px;
+        flex: 0 0 auto;
+    }
+
+    .buttons {
+        padding-bottom: 8px;
     }
 }

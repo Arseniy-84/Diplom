@@ -138,13 +138,19 @@
     }
 
     .chairs {
-        width: 100%;
+        width: auto;
+        grid-template-columns: max-content max-content;
+        justify-content: center;
         padding: 24px 16px 0;
+    }
+
+    .chair-text {
+        white-space: nowrap;
     }
 
     .tapHint {
         display: flex;
-        align-items: flex-start;
+        align-items: center;
         gap: 12px;
         position: absolute;
         top: 15px;
@@ -157,19 +163,33 @@
     .tapHint p {
         max-width: 116px;
         margin: 0;
-        text-align: left;
+        text-align: center;
         white-space: normal;
     }
 }
 
 @media (max-width: 390px) {
     .seance {
-        padding: 12px 146px 16px 12px;
+        padding: 12px 124px 14px 12px;
+        align-items: flex-start;
+        text-align: left;
     }
 
     .film-name,
     .hall-name {
-        font-size: 15px;
+        font-size: 14px;
+        line-height: 16px;
+    }
+
+    .seance-time {
+        font-size: 12px;
+        line-height: 14px;
+    }
+
+    .hall {
+        width: calc(100% - 24px);
+        margin: 0 auto;
+        padding: 15px 10px 24px;
     }
 
     .screen {
@@ -183,29 +203,34 @@
     }
 
     .chairs {
-        grid-template-columns: 1fr;
+        width: auto;
+        grid-template-columns: max-content max-content;
+        justify-content: center;
         gap: 8px;
         padding: 24px 12px 0;
     }
 
     .tapHint {
         position: absolute;
-        top: 12px;
+        top: 10px;
         right: 12px;
-        align-self: auto;
         display: flex;
-        gap: 10px;
+        align-items: center;
+        justify-content: flex-start;
+        flex-wrap: nowrap;
+        gap: 8px;
         margin-top: 0;
         font-size: 12px;
         line-height: 14px;
-        width: 138px;
-        min-width: 138px;
+        width: 102px;
+        min-width: 102px;
     }
 
     .tapHint p {
-        width: 98px;
-        min-width: 98px;
-        max-width: 98px;
-        flex: 0 0 98px;
+        width: 64px;
+        min-width: 64px;
+        max-width: 64px;
+        flex: 0 0 64px;
+        text-align: center;
     }
 }

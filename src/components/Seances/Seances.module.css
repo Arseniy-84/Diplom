@@ -11,6 +11,7 @@
     gap: 20px;
     padding: 15px;
     background: var(--background-client);
+    border-radius: 2px;
 }
 
 .content {
@@ -48,7 +49,7 @@
 
 .description {
     font-size: 14px;
-    line-height: 21px;
+    line-height: 16px;
 }
 
 .second-info {
@@ -197,22 +198,29 @@
     }
 
     .name {
-        font-size: 15px;
+        font-size: 14px;
+        line-height: 16px;
     }
 
     .description,
     .second-info {
-        font-size: 12px;
-        line-height: 16px;
+        font-size: 11px;
+        line-height: 13px;
     }
 
     .seances {
         gap: 6px;
     }
 
+    .hall-name {
+        font-size: 14px;
+        line-height: 16px;
+    }
+
     .seance-time {
-        padding: 5px 8px;
-        font-size: 13px;
+        padding: 6px 8px;
+        font-size: 11px;
+        line-height: 13px;
         flex: 0 0 auto;
         min-width: 0;
         text-align: center;

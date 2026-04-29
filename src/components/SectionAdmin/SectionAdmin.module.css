@@ -91,26 +91,26 @@
     }
 
     .head {
-        padding: 18px 16px 18px 56px;
+        padding: 20px 16px 20px 60px;
     }
 
     .title {
-        font-size: 16px;
-        line-height: 18px;
+        font-size: 14px;
+        line-height: 16px;
     }
 
     .icon {
-        width: 30px;
-        height: 30px;
-        left: 12px;
+        width: 24px;
+        height: 24px;
+        left: 20px;
     }
 
     .check-mark {
-        width: 20px;
-        height: 14px;
+        width: 18px;
+        height: 12px;
     }
 
     .content {
-        padding: 24px 16px 24px 16px;
+        padding: 28px 20px 28px;
     }
 }

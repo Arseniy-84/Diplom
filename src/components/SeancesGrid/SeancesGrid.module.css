@@ -155,7 +155,7 @@
 @media (max-width: 1024px) {
     .seances-grid {
         max-width: 100%;
-        padding: 40px 24px 51px;
+        padding: 40px 40px 51px;
     }
 }
 
@@ -171,7 +171,11 @@
 
 @media (max-width: 390px) {
     .seances-grid {
-        padding: 28px 16px 40px 0;
+        padding: 28px 20px 28px;
+    }
+
+    .buttons {
+        padding-bottom: 8px;
     }
 }
 

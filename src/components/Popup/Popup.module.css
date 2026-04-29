@@ -122,21 +122,23 @@
     }
 
     .head {
-        padding: 16px 20px 14px;
+        padding: 16px 24px 14px;
     }
 
     .form {
-        padding: 24px 20px 0;
+        padding: 24px 24px 0;
         gap: 12px;
     }
 
     .buttons {
         width: 100%;
         padding: 28px 0 24px;
+        gap: 12px;
     }
 
     .buttons button {
-        width: 100%;
+        width: auto;
+        min-width: 180px;
     }
 }
 
@@ -146,14 +148,18 @@
     }
 
     .head {
-        padding: 14px 16px 12px;
+        padding: 14px 20px 12px;
     }
 
     .form {
-        padding: 18px 16px 0;
+        padding: 18px 20px 0;
     }
 
     .buttons {
         padding: 24px 0 20px;
+    }
+
+    .buttons button {
+        min-width: 140px;
     }
 }

@@ -107,4 +107,8 @@
     .halls {
         flex-wrap: wrap;
     }
+
+    .buttons {
+        padding-bottom: 8px;
+    }
 }
