@@ -35,9 +35,13 @@
 }
 
 .header {
-    font-weight: var(--font-bold);
-    font-size: 16px;
-    line-height: 18px;
+    font-family: Roboto, sans-serif;
+    font-weight: 700;
+    font-style: normal;
+    font-size: 22px;
+    line-height: 25px;
+    letter-spacing: 0;
+    vertical-align: middle;
     text-transform: uppercase;
     color: #C76F00;
     position: relative;
@@ -127,12 +131,6 @@
 @media (max-width: 390px) {
     .page {
         padding-bottom: 72px;
-    }
-
-    .header {
-        font-size: 14px;
-        line-height: 16px;
-        padding: 22px 16px 18px;
     }
 
     .qrCode {
