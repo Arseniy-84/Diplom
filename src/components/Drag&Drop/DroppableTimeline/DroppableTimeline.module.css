@@ -6,6 +6,7 @@
     transition: all 0.3s ease;
     width: 100%;
     max-width: 720px;
+    background: transparent;
 }
 
 .timeline.drag-over {
@@ -19,19 +20,22 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    gap: 6px;
 }
 
 .hall-name {
+    align-self: flex-start;
     font-weight: var(--font-medium);
     font-size: 16px;
     line-height: 18px;
     text-transform: uppercase;
-    margin-bottom: 4px;
+    text-align: left;
 }
 
 @media (max-width: 768px) {
     .halls {
         align-items: stretch;
+        gap: 4px;
     }
 
     .timeline {
@@ -45,12 +49,17 @@
 }
 
 @media (max-width: 390px) {
+    .halls {
+        gap: 3px;
+    }
+
     .timeline {
-        height: 48px;
+        height: 40px;
         max-width: 100%;
     }
 
     .hall-name {
-        font-size: 13px;
+        font-size: 12px;
+        line-height: 14px;
     }
 }

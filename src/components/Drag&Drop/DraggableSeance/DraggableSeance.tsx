@@ -8,6 +8,7 @@ interface DraggableSeanceProps {
     film: Film;
     filmColor: string;
     position: { left: string };
+    width: number;
     hallId: number;
 }
 
@@ -16,6 +17,7 @@ export const DraggableSeance = ({
     film, 
     filmColor, 
     position, 
+    width,
     hallId 
 }: DraggableSeanceProps) => {
     const [{ isDragging }, drag] = useDrag(() => ({
@@ -36,7 +38,8 @@ export const DraggableSeance = ({
             className={`${styles.seance} ${isDragging ? styles.dragging : ''}`}
             style={{ 
                 backgroundColor: filmColor,
-                left: position.left 
+                left: position.left,
+                width: `${width}px`
             }}
         >
             <span className={styles.name}>{film.film_name}</span>

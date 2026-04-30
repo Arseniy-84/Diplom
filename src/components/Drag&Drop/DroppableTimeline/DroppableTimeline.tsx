@@ -44,7 +44,7 @@ export const DroppableTimeline = ({ hall, films = [], seances = [], filmColors =
         return () => window.removeEventListener("resize", updateWidth);
     }, []);
 
-    const { getSeancePosition } = useTimeline();
+    const { getSeancePosition, getSeanceWidth } = useTimeline();
     const hallSeances = seances.filter((seance) => seance.seance_hallid === hall.id);
 
     const getFilmById = (filmId: number): Film | undefined => films.find((film) => film.id === filmId);
@@ -67,13 +67,16 @@ export const DroppableTimeline = ({ hall, films = [], seances = [], filmColors =
                             return null;
                         }
 
+                        const seanceWidth = getSeanceWidth(film.film_duration ?? 0, timelineWidth);
+
                         return (
                             <DraggableSeance
                                 key={seance.id}
                                 seance={seance}
                                 film={film}
                                 filmColor={filmColors[film.id]}
-                                position={getSeancePosition(seance.seance_time, timelineWidth - 70)}
+                                position={getSeancePosition(seance.seance_time, timelineWidth, seanceWidth)}
+                                width={seanceWidth}
                                 hallId={hall.id}
                             />
                         );

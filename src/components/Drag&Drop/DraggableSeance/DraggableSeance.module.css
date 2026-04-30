@@ -1,17 +1,16 @@
 .seance {
     position: absolute;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     border: 1px solid var(--text-secondary);
-    border-radius: 3px;
-    padding: 6px 10px;
-    font-size: 12px;
-    width: 70px;
-    height: 45px;
+    padding: 10px;
+    font-size: 10px;
+    min-width: 60px;
+    height: 40px;
     box-sizing: border-box;
-    top: 50%;
-    transform: translateY(-50%); 
+    top: 10px;
     cursor: grab;
+    overflow: visible;
 }
 
 .seance:active {
@@ -23,27 +22,86 @@
 }
 
 .name {
-    font-weight: 500;
-    max-width: 70px; 
-    white-space: nowrap;
-    overflow:hidden;
-    text-overflow: ellipsis;    
+    font-weight: 400;
+    font-size: 10px;
+    line-height: 10px;
+    display: -webkit-box;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
 }
 
 .time {
     position: absolute;
-    left: 0;
-    bottom: -25px;
+    left: -14px;
+    bottom: -24px;
     color: var(--text-secondary);
-    font-size: 10px;
+    font-size: 12px;
+    line-height: 14px;
 }
 
 .time::before {
     content: '';
     position: absolute;
-    top: -5px;
-    left: 0;
+    top: -7px;
+    left: 14px;
     width: 1px;
-    height: 6px;
+    height: 5px;
     background-color: var(--text-secondary);
+}
+
+@media (max-width: 768px) {
+    .seance {
+        min-width: 52px;
+        height: 34px;
+        padding: 7px 8px;
+        top: 9px;
+    }
+
+    .name {
+        font-size: 8px;
+        line-height: 8px;
+    }
+
+    .time {
+        left: -10px;
+        bottom: -20px;
+        font-size: 10px;
+        line-height: 12px;
+    }
+
+    .time::before {
+        top: -6px;
+        left: 10px;
+        height: 4px;
+    }
+}
+
+@media (max-width: 390px) {
+    .seance {
+        min-width: 42px;
+        height: 28px;
+        padding: 5px 6px;
+        top: 8px;
+    }
+
+    .name {
+        font-size: 6px;
+        line-height: 7px;
+    }
+
+    .time {
+        left: -8px;
+        bottom: -16px;
+        font-size: 8px;
+        line-height: 10px;
+    }
+
+    .time::before {
+        top: -5px;
+        left: 8px;
+        height: 3px;
+    }
 }

@@ -144,6 +144,7 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
+    align-self: center;
 }
 
 .row {
@@ -226,7 +227,7 @@
         width: 100%;
         padding: 20px 8px 28px;
         overflow-x: auto;
-        align-items: flex-start;
+        align-items: center;
     }
 
     .screen {
@@ -238,7 +239,6 @@
 
     .schemeHall {
         width: max-content;
-        min-width: 100%;
         gap: 8px;
     }
 
